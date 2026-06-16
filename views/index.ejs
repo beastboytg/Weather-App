@@ -1,1 +1,159 @@
-<h1>hello</h1>
+<%- include("partials/header.ejs") %>
+    <main class="main">
+        <section class="search-bar-section">
+            <form class="input-form" action="/weather" method="GET" autocomplete="off">
+                <div class="search-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="search-icon">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                    
+                    <input type="text" class="search-bar" placeholder="Search a city" name="location" value="<%= locals.city || '' %>">
+
+                    <div class="suggestions hidden">
+                        <div class="city choice">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="location-icon">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                            </svg>
+
+                            London
+                        </div>
+                        <div class="city choice">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="location-icon">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                            </svg>
+
+                            New York
+                        </div>
+                        <div class="city choice">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="location-icon">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                            </svg>
+
+                            Tokyo
+                        </div>
+                        <div class="city choice">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="location-icon">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                            </svg>
+
+                            Dubai
+                        </div>
+                        <div class="city choice">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="location-icon">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                            </svg>
+
+                            Mumbai
+                        </div>
+                        <div class="city choice">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="location-icon">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                            </svg>
+
+                            Sydney
+                        </div>
+                    </div>
+                </div>
+                <svg xmlns="http://w3.org" viewBox="0 0 100 100" width="100%" height="100%" class="weather-emoji">
+                    <defs>
+                        <!-- Sun Gradient -->
+                        <linearGradient id="sunGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#FFF066" />
+                            <stop offset="100%" stop-color="#FF9900" />
+                        </linearGradient>
+
+                        <!-- Cloud Gradient -->
+                        <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#FFFFFF" />
+                            <stop offset="100%" stop-color="#D2E4F0" />
+                        </linearGradient>
+
+                        <!-- Cloud Shadow -->
+                        <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                            <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#002244" flood-opacity="0.15" />
+                        </filter>
+                    </defs>
+
+                    <!-- Sun Background Glow -->
+                    <circle cx="38" cy="38" r="22" fill="#FFCC00" opacity="0.2" filter="blur(4px)" />
+
+                    <!-- Sun -->
+                    <g>
+                        <!-- Sun Body -->
+                        <circle cx="38" cy="38" r="18" fill="url(#sunGrad)" />
+
+                        <!-- Sun Rays -->
+                        <g stroke="url(#sunGrad)" stroke-width="3.5" stroke-linecap="round">
+                            <line x1="38" y1="12" x2="38" y2="4" />
+                            <line x1="38" y1="64" x2="38" y2="56" />
+                            <line x1="12" y1="38" x2="4" y2="38" />
+                            <line x1="64" y1="38" x2="56" y2="38" />
+                            <line x1="19.6" y1="19.6" x2="14" y2="14" />
+                            <line x1="56.4" y1="56.4" x2="62" y2="62" />
+                            <line x1="19.6" y1="56.4" x2="14" y2="62" />
+                            <line x1="56.4" y1="19.6" x2="62" y2="14" />
+                        </g>
+                    </g>
+
+                    <!-- Cloud -->
+                    <path d="M 25 70 
+                    A 14 14 0 0 1 34 44 
+                    A 19 19 0 0 1 68 38 
+                    A 15 15 0 0 1 84 52 
+                    A 13 13 0 0 1 78 78 
+                    Z" fill="url(#cloudGrad)" filter="url(#shadow)" />
+                </svg>
+
+                <p class="text">Search a city to see weather</p>
+
+                <div class="option-list">
+                    <div class="options choice">
+                        <p>London</p>
+                    </div>
+                    <div class="options choice">
+                        <p>New-York</p>
+                    </div>
+                    <div class="options choice">
+                        <p>Tokyo</p>
+                    </div>
+                    <div class="options choice">
+                        <p>Dubai</p>
+                    </div>
+                    <div class="options choice">
+                        <p>Mumbai</p>
+                    </div>
+                    <div class="options choice">
+                        <p>Sydney</p>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <%- include("partials/footer.ejs") %>
