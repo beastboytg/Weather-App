@@ -36,3 +36,483 @@ if(window.uv >=11){
     uv_index.classList.add("green");
     uv_emoji.classList.add("green");
 }
+
+
+
+function dayAfterTmrw(){
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    
+    const dayAfterTomorrow = new Date();
+    
+    dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
+    
+    const name = days[dayAfterTomorrow.getDay()];
+    document.querySelector(".day-after-tmrw").textContent=name;   
+}
+dayAfterTmrw();
+
+
+
+const weatherGroups = {
+    Sunny: [1000],
+    Cloudy: [1003, 1006, 1009],
+    Foggy: [1030, 1135, 1147],
+    Raining: [1063, 1150, 1153, 1180, 1183, 1186, 1189, 1192, 1195, 1240, 1243, 1246],
+    Snowing: [1066, 1114, 1117, 1210, 1213, 1216, 1219, 1222, 1225, 1255, 1258],
+    Thunder: [1087, 1273, 1276, 1279, 1282]
+};
+
+const codeToGroup = {};
+
+for (const [group, codes] of Object.entries(weatherGroups)) {
+    codes.forEach(code => {
+        codeToGroup[code] = group;
+    });
+}
+
+const iconFiles = {
+    Sunny: `<svg width="32" height="32" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <radialGradient id="sunGradient">
+                                            <stop offset="0%" stop-color="#FFF9A8" />
+                                            <stop offset="100%" stop-color="#FDB813" />
+                                        </radialGradient>
+
+                                        <filter id="glow">
+                                            <feGaussianBlur stdDeviation="4" result="coloredBlur" />
+                                            <feMerge>
+                                                <feMergeNode in="coloredBlur" />
+                                                <feMergeNode in="SourceGraphic" />
+                                            </feMerge>
+                                        </filter>
+                                    </defs>
+
+                                    <!-- Floating Sun -->
+                                    <g filter="url(#glow)">
+                                        <animateTransform attributeName="transform" type="translate"
+                                            values="0 0;0 -6;0 0" dur="4s" repeatCount="indefinite" />
+
+                                        <!-- Rotating Rays -->
+                                        <g>
+
+                                            <g stroke="#FDB813" stroke-width="6" stroke-linecap="round">
+                                                <line x1="110" y1="20" x2="110" y2="45" />
+                                                <line x1="110" y1="175" x2="110" y2="200" />
+
+                                                <line x1="20" y1="110" x2="45" y2="110" />
+                                                <line x1="175" y1="110" x2="200" y2="110" />
+
+                                                <line x1="45" y1="45" x2="62" y2="62" />
+                                                <line x1="158" y1="158" x2="175" y2="175" />
+
+                                                <line x1="175" y1="45" x2="158" y2="62" />
+                                                <line x1="45" y1="175" x2="62" y2="158" />
+                                            </g>
+                                        </g>
+
+                                        <!-- Sun Glow -->
+                                        <circle cx="110" cy="110" r="55" fill="#FFD54A" opacity="0.25">
+
+                                            <animate attributeName="r" values="55;62;55" dur="3s"
+                                                repeatCount="indefinite" />
+                                        </circle>
+
+                                        <!-- Sun Body -->
+                                        <circle cx="110" cy="110" r="45" fill="url(#sunGradient)">
+
+                                            <animate attributeName="r" values="45;48;45" dur="3s"
+                                                repeatCount="indefinite" />
+                                        </circle>
+
+                                    </g>
+                                </svg>`,
+    Cloudy: `<svg width="32" height="32" viewBox="0 0 220 220"
+                                                    xmlns="http://www.w3.org/2000/svg">
+
+                                                    <defs>
+
+                                                        <!-- Back Cloud -->
+                                                        <linearGradient id="backCloud" x1="0%" y1="0%" x2="0%"
+                                                            y2="100%">
+                                                            <stop offset="0%" stop-color="#E6EBF5" />
+                                                            <stop offset="100%" stop-color="#AEB9CD" />
+                                                        </linearGradient>
+
+                                                        <!-- Front Cloud -->
+                                                        <linearGradient id="frontCloud" x1="0%" y1="0%" x2="0%"
+                                                            y2="100%">
+                                                            <stop offset="0%" stop-color="#F8FAFD" />
+                                                            <stop offset="100%" stop-color="#C6D0E0" />
+                                                        </linearGradient>
+
+                                                        <!-- Shadow -->
+                                                        <filter id="shadow">
+                                                            <feDropShadow dx="0" dy="4" stdDeviation="4"
+                                                                flood-color="#001A44" flood-opacity="0.12" />
+                                                        </filter>
+
+                                                    </defs>
+
+                                                    <!-- Floating Animation -->
+                                                    <g>
+
+                                                        <animateTransform attributeName="transform" type="translate"
+                                                            values="0 0;0 -5;0 0" dur="4s" repeatCount="indefinite" />
+
+                                                        <!-- Back Cloud -->
+                                                        <path d="
+                                                    M50 125
+                                                    C50 95, 75 85, 95 95
+                                                    C105 65, 145 65, 160 90
+                                                    C185 90, 198 105, 198 125
+                                                    C210 130, 208 150, 190 155
+                                                    H70
+                                                    C48 155, 38 138, 50 125
+                                                    Z" fill="url(#backCloud)" filter="url(#shadow)" />
+
+                                                        <!-- Front Cloud -->
+                                                        <path d="
+                                                    M85 145
+                                                    C85 122, 102 112, 120 118
+                                                    C128 92, 162 92, 175 115
+                                                    C192 115, 202 128, 202 145
+                                                    C210 150, 208 165, 190 168
+                                                    H105
+                                                    C88 168, 78 155, 85 145
+                                                    Z" fill="url(#frontCloud)" filter="url(#shadow)" />
+
+                                                    </g>
+
+                                                </svg>`,
+    Foggy: `<svg width="32" height="32" viewBox="0 0 220 220"
+                                                            xmlns="http://www.w3.org/2000/svg">
+
+                                                            <defs>
+
+                                                                <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="0%"
+                                                                    y2="100%">
+                                                                    <stop offset="0%" stop-color="#F7F9FC" />
+                                                                    <stop offset="100%" stop-color="#C7D1E0" />
+                                                                </linearGradient>
+
+                                                                <filter id="shadow">
+                                                                    <feDropShadow dx="0" dy="4" stdDeviation="4"
+                                                                        flood-color="#001A44" flood-opacity="0.12" />
+                                                                </filter>
+
+                                                            </defs>
+
+                                                            <!-- Floating Cloud -->
+                                                            <g>
+
+                                                                <animateTransform attributeName="transform"
+                                                                    type="translate" values="0 0;0 -4;0 0" dur="4s"
+                                                                    repeatCount="indefinite" />
+
+                                                                <!-- Cloud -->
+                                                                <path d="
+                                                    M65 115
+                                                    C65 95, 85 88, 98 95
+                                                    C102 75, 128 72, 140 88
+                                                    C160 88, 172 100, 172 115
+                                                    C185 118, 188 135, 172 142
+                                                    H78
+                                                    C58 142, 50 122, 65 115Z
+                                                    " fill="url(#cloudGrad)" filter="url(#shadow)" />
+
+                                                                <!-- Fog Layer 1 -->
+                                                                <rect x="55" y="155" width="110" height="6" rx="3"
+                                                                    fill="#D5DEE8">
+
+                                                                    <animate attributeName="opacity"
+                                                                        values="0.3;0.9;0.3" dur="4s"
+                                                                        repeatCount="indefinite" />
+                                                                </rect>
+
+                                                                <!-- Fog Layer 2 -->
+                                                                <rect x="45" y="170" width="130" height="6" rx="3"
+                                                                    fill="#D5DEE8">
+
+                                                                    <animate attributeName="opacity"
+                                                                        values="0.9;0.3;0.9" dur="5s"
+                                                                        repeatCount="indefinite" />
+                                                                </rect>
+
+                                                                <!-- Fog Layer 3 -->
+                                                                <rect x="60" y="185" width="32" height="6" rx="3"
+                                                                    fill="#D5DEE8">
+
+                                                                    <animate attributeName="opacity"
+                                                                        values="0.3;0.9;0.3" dur="4.5s"
+                                                                        repeatCount="indefinite" />
+                                                                </rect>
+
+                                                            </g>
+
+                                                        </svg>`,
+    Raining: `<svg width="100" height="32" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+
+                            <defs>
+                                <!-- Darker Rain Cloud -->
+                                <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#EEF4FB" />
+                                    <stop offset="100%" stop-color="#B8C7DB" />
+                                </linearGradient>
+
+                                <!-- Shadow -->
+                                <filter id="shadow">
+                                    <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#001A44"
+                                        flood-opacity="0.15" />
+                                </filter>
+
+                            </defs>
+
+                            <!-- Floating Group -->
+                            <g>
+
+                                <!-- Gentle Float -->
+                                <animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0"
+                                    dur="4s" repeatCount="indefinite" />
+
+                                <!-- Cloud -->
+                                <path d="
+                                                    M65 115
+                                                    C65 95, 85 88, 98 95
+                                                    C102 75, 128 72, 140 88
+                                                    C160 88, 172 100, 172 115
+                                                    C185 118, 188 135, 172 142
+                                                    H78
+                                                    C58 142, 50 122, 65 115Z
+                                                    " fill="url(#cloudGrad)" filter="url(#shadow)" />
+
+                                <!-- Rain -->
+                                <g stroke="#4EA3FF" stroke-width="3" stroke-linecap="round">
+
+                                    <!-- Drop 1 -->
+                                    <line x1="82" y1="157" x2="78" y2="174">
+
+                                        <animateTransform attributeName="transform" type="translate" values="0 -10;0 10"
+                                            dur="0.9s" repeatCount="indefinite" />
+
+                                        <animate attributeName="opacity" values="0.15;1;0.15" dur="0.9s"
+                                            repeatCount="indefinite" />
+                                    </line>
+
+                                    <!-- Drop 2 -->
+                                    <line x1="105" y1="157" x2="101" y2="174">
+
+                                        <animateTransform attributeName="transform" type="translate" values="0 -8;0 12"
+                                            dur="0.8s" begin="0.2s" repeatCount="indefinite" />
+
+                                        <animate attributeName="opacity" values="0.15;1;0.15" dur="0.8s" begin="0.2s"
+                                            repeatCount="indefinite" />
+                                    </line>
+
+                                    <!-- Drop 3 -->
+                                    <line x1="128" y1="157" x2="124" y2="174">
+
+                                        <animateTransform attributeName="transform" type="translate" values="0 -10;0 10"
+                                            dur="1s" begin="0.4s" repeatCount="indefinite" />
+
+                                        <animate attributeName="opacity" values="0.15;1;0.15" dur="1s" begin="0.4s"
+                                            repeatCount="indefinite" />
+                                    </line>
+
+                                    <!-- Drop 4 -->
+                                    <line x1="150" y1="157" x2="146" y2="174">
+
+                                        <animateTransform attributeName="transform" type="translate" values="0 -8;0 12"
+                                            dur="0.85s" begin="0.1s" repeatCount="indefinite" />
+
+                                        <animate attributeName="opacity" values="0.15;1;0.15" dur="0.85s" begin="0.1s"
+                                            repeatCount="indefinite" />
+                                    </line>
+
+                                </g>
+
+                            </g>
+
+                        </svg>`,
+    Snowing: `<svg width="32" height="32" viewBox="0 0 220 220"
+                                                    xmlns="http://www.w3.org/2000/svg">
+
+                                                    <defs>
+
+                                                        <!-- Back Cloud -->
+                                                        <linearGradient id="backCloud" x1="0%" y1="0%" x2="0%"
+                                                            y2="100%">
+                                                            <stop offset="0%" stop-color="#E6EBF5" />
+                                                            <stop offset="100%" stop-color="#AEB9CD" />
+                                                        </linearGradient>
+
+                                                        <!-- Front Cloud -->
+                                                        <linearGradient id="frontCloud" x1="0%" y1="0%" x2="0%"
+                                                            y2="100%">
+                                                            <stop offset="0%" stop-color="#F8FAFD" />
+                                                            <stop offset="100%" stop-color="#C6D0E0" />
+                                                        </linearGradient>
+
+                                                        <!-- Shadow -->
+                                                        <filter id="shadow">
+                                                            <feDropShadow dx="0" dy="4" stdDeviation="4"
+                                                                flood-color="#001A44" flood-opacity="0.12" />
+                                                        </filter>
+
+                                                    </defs>
+
+                                                    <!-- Floating Animation -->
+                                                    <g>
+
+                                                        <animateTransform attributeName="transform" type="translate"
+                                                            values="0 0;0 -5;0 0" dur="4s" repeatCount="indefinite" />
+
+                                                        <!-- Back Cloud -->
+                                                        <path d="
+                                                    M50 125
+                                                    C50 95, 75 85, 95 95
+                                                    C105 65, 145 65, 160 90
+                                                    C185 90, 198 105, 198 125
+                                                    C210 130, 208 150, 190 155
+                                                    H70
+                                                    C48 155, 38 138, 50 125
+                                                    Z" fill="url(#backCloud)" filter="url(#shadow)" />
+
+                                                        <!-- Front Cloud -->
+                                                        <path d="
+                                                    M85 145
+                                                    C85 122, 102 112, 120 118
+                                                    C128 92, 162 92, 175 115
+                                                    C192 115, 202 128, 202 145
+                                                    C210 150, 208 165, 190 168
+                                                    H105
+                                                    C88 168, 78 155, 85 145
+                                                    Z" fill="url(#frontCloud)" filter="url(#shadow)" />
+
+                                                    </g>
+
+                                                </svg>`,
+    Thunder: `<svg width="32" height="32" viewBox="0 0 220 220"
+                                                xmlns="http://www.w3.org/2000/svg">
+
+                                                <defs>
+
+                                                    <!-- Storm Cloud -->
+                                                    <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                        <stop offset="0%" stop-color="#7C879C" />
+                                                        <stop offset="100%" stop-color="#2F3B52" />
+                                                    </linearGradient>
+
+                                                    <!-- Lightning -->
+                                                    <linearGradient id="boltGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                        <stop offset="0%" stop-color="#FFE45E" />
+                                                        <stop offset="100%" stop-color="#FFC400" />
+                                                    </linearGradient>
+
+                                                    <!-- Shadow -->
+                                                    <filter id="shadow">
+                                                        <feDropShadow dx="0" dy="4" stdDeviation="4"
+                                                            flood-color="#000000" flood-opacity="0.18" />
+                                                    </filter>
+
+                                                    <!-- Lightning Glow -->
+                                                    <filter id="boltGlow">
+                                                        <feDropShadow dx="0" dy="0" stdDeviation="5"
+                                                            flood-color="#FFD93D" flood-opacity="0.8" />
+                                                    </filter>
+
+                                                </defs>
+
+                                                <!-- Floating Group -->
+                                                <g>
+
+                                                    <animateTransform attributeName="transform" type="translate"
+                                                        values="0 0;0 -4;0 0" dur="4s" repeatCount="indefinite" />
+
+                                                    <!-- Cloud -->
+                                                    <path d="
+                                                    M65 115
+                                                    C65 95, 85 88, 98 95
+                                                    C102 75, 128 72, 140 88
+                                                    C160 88, 172 100, 172 115
+                                                    C185 118, 188 135, 172 142
+                                                    H78
+                                                    C58 142, 50 122, 65 115Z
+                                                    " fill="url(#cloudGrad)" filter="url(#shadow)" />
+
+                                                    <!-- Lightning -->
+                                                    <path d="
+                                                    M112 138
+                                                    L98 170
+                                                    H112
+                                                    L100 198
+                                                    L135 155
+                                                    H120
+                                                    L132 138
+                                                    Z
+                                                    " fill="url(#boltGrad)" filter="url(#boltGlow)">
+                                                        <animate attributeName="opacity" values="1;0.65;1;0.4;1"
+                                                            dur="2s" repeatCount="indefinite" />
+                                                    </path>
+
+                                                    <!-- Rain -->
+                                                    <g stroke="#4EA3FF" stroke-width="3" stroke-linecap="round">
+
+                                                        <!-- Left Outer -->
+                                                        <line x1="82" y1="157" x2="78" y2="174">
+
+                                                            <animateTransform attributeName="transform" type="translate"
+                                                                values="0 -10;0 10" dur="0.9s"
+                                                                repeatCount="indefinite" />
+
+                                                            <animate attributeName="opacity" values="0.15;1;0.15"
+                                                                dur="0.9s" repeatCount="indefinite" />
+                                                        </line>
+
+                                                        <!-- Left Inner -->
+                                                        <line x1="95" y1="157" x2="91" y2="174">
+
+                                                            <animateTransform attributeName="transform" type="translate"
+                                                                values="0 -8;0 12" dur="0.8s" begin="0.2s"
+                                                                repeatCount="indefinite" />
+
+                                                            <animate attributeName="opacity" values="0.15;1;0.15"
+                                                                dur="0.8s" begin="0.2s" repeatCount="indefinite" />
+                                                        </line>
+
+                                                        <!-- Right Inner -->
+                                                        <line x1="145" y1="157" x2="141" y2="174">
+
+                                                            <animateTransform attributeName="transform" type="translate"
+                                                                values="0 -8;0 12" dur="0.85s" begin="0.1s"
+                                                                repeatCount="indefinite" />
+
+                                                            <animate attributeName="opacity" values="0.15;1;0.15"
+                                                                dur="0.85s" begin="0.1s" repeatCount="indefinite" />
+                                                        </line>
+
+                                                        <!-- Right Outer -->
+                                                        <line x1="158" y1="157" x2="154" y2="174">
+
+                                                            <animateTransform attributeName="transform" type="translate"
+                                                                values="0 -10;0 10" dur="1s" begin="0.3s"
+                                                                repeatCount="indefinite" />
+
+                                                            <animate attributeName="opacity" values="0.15;1;0.15"
+                                                                dur="1s" begin="0.3s" repeatCount="indefinite" />
+                                                        </line>
+
+                                                    </g>
+
+                                                </g>
+
+                                            </svg>`
+};
+function getWeatherIcon(code) {
+    const group = codeToGroup[code];
+
+
+    return iconFiles[group] || "default.svg";
+}
+for (let i=0;i<24;i++){
+    document.querySelector(".hourly-weather-"+ i ).innerHTML=getWeatherIcon(weather.forecast.forecastday[0].hour[i].condition.code);
+}
