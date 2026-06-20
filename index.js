@@ -4,11 +4,43 @@ import axios from "axios";
 
 const port = 3000;
 const app = express();
+const weather_api_key = "7609157b367744868da105759260302"
 
 app.use(express.static("public"));
 
 app.get("/", (req,res)=>{
     res.render("index.ejs");
+});
+
+app.get("/weather", async (req,res) =>{
+    try {
+        const location = req.query.location;
+        const response = await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=${weather_api_key}&q=${location}&days=3`);
+        
+        
+        const weatherGroups = {
+            Sunny: [1000],
+            Cloudy: [1003, 1006, 1009],
+            Foggy: [1030, 1135, 1147],
+            Raining: [1063, 1150, 1153, 1180, 1183, 1186, 1189, 1192, 1195, 1240, 1243, 1246],
+            Snowing: [1066, 1114, 1117, 1210, 1213, 1216, 1219, 1222, 1225, 1255, 1258],
+            Thunder: [1087, 1273, 1276, 1279, 1282]
+        };
+        
+        const code = response.data.current.condition.code;
+
+        const weatherType =
+        Object.keys(weatherGroups).find(type =>
+            weatherGroups[type].includes(code)
+        ) || "other";
+        
+        const data={city:req.query.location, weather:response.data, weatherType};
+
+        res.render("index.ejs",data);
+
+    } catch (error) {
+        console.error(error);
+    }
 });
 
 app.listen(port , ()=>{
