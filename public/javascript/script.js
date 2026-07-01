@@ -2,14 +2,14 @@ document.querySelector(".search-bar").addEventListener("focus", () => {
     document.querySelector(".suggestions").classList.remove("hidden");
 });
 
-document.querySelector(".search-bar").addEventListener("blur", () =>{
+document.querySelector(".search-bar").addEventListener("blur", () => {
     document.querySelector(".suggestions").classList.add("hidden");
 });
 
 
 
 document.querySelectorAll(".choice").forEach(city => {
-    city.addEventListener("click", () =>{
+    city.addEventListener("click", () => {
         document.querySelector(".search-bar").value = city.textContent.trim();
 
         document.querySelector(".input-form").submit();
@@ -20,34 +20,59 @@ document.querySelectorAll(".choice").forEach(city => {
 
 const uv_index = document.querySelector(".uv");
 const uv_emoji = document.querySelector(".uv-icon");
-if(window.uv >=11){
+const uv_text = document.querySelector(".uv-text");
+if (window.uv >= 11) {
     uv_index.classList.add("purple");
     uv_emoji.classList.add("purple");
-} else  if (window.uv <=10.99 && window.uv >= 8){
+    uv_text.textContent = "Extreme";
+} else if (window.uv <= 10.99 && window.uv >= 8) {
     uv_index.classList.add("red");
     uv_emoji.classList.add("red");
-}else if (window.uv <=7.99 && window.uv >= 6 ){
+    uv_text.textContent = "Very High";
+} else if (window.uv <= 7.99 && window.uv >= 6) {
     uv_index.classList.add("orange");
     uv_emoji.classList.add("orange");
-}else if (window.uv <=5.99 && window.uv >= 3){
+    uv_text.textContent ="High";
+} else if (window.uv <= 5.99 && window.uv >= 3) {
     uv_index.classList.add("yellow");
     uv_emoji.classList.add("yellow");
-}else{
+    uv_text.textContent="Moderate";
+} else {
     uv_index.classList.add("green");
     uv_emoji.classList.add("green");
+    uv_text.textContent="Low";
 }
 
 
 
-function dayAfterTmrw(){
+
+if ( weatherType===`Thunder`) { 
+    document.querySelector(".weather-type").textContent="Thunder Storm";
+    document.querySelector(".sky-value").textContent="Thunder Storm";
+} else if( weatherType===`Sunny`){ 
+if( weather.current.is_day===1){
+    document.querySelector(".weather-type").textContent="Sunny";
+    document.querySelector(".sky-value").textContent="Sunny";
+} else { 
+    document.querySelector(".weather-type").textContent="Clear Sky";
+    document.querySelector(".sky-value").textContent="Clear Sky";
+}
+} else { 
+    document.querySelector(".weather-type").textContent=weatherType;
+    document.querySelector(".sky-value").textContent=weatherType;
+}
+
+
+
+function dayAfterTmrw() {
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    
+
     const dayAfterTomorrow = new Date();
-    
+
     dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
-    
+
     const name = days[dayAfterTomorrow.getDay()];
-    document.querySelector(".day-after-tmrw").textContent=name;   
+    document.querySelector(".day-after-tmrw").textContent = name;
 }
 dayAfterTmrw();
 
@@ -56,7 +81,7 @@ dayAfterTmrw();
 const weatherGroups = {
     Sunny: [1000],
     Cloudy: [1003, 1006, 1009],
-    Foggy: [1030, 1135, 1147],
+    Foggy: [1030, 1135, 1147, 1012],
     Raining: [1063, 1150, 1153, 1180, 1183, 1186, 1189, 1192, 1195, 1240, 1243, 1246],
     Snowing: [1066, 1114, 1117, 1210, 1213, 1216, 1219, 1222, 1225, 1255, 1258],
     Thunder: [1087, 1273, 1276, 1279, 1282]
@@ -507,12 +532,176 @@ const iconFiles = {
 
                                             </svg>`
 };
-function getWeatherIcon(code) {
+function getWeatherIcon(code, is_day) {
     const group = codeToGroup[code];
 
+    if (group === "Sunny" && !is_day) {
+        return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="32" width="32">
+  <defs>
+    <radialGradient id="sky" cx="50%" cy="75%" r="80%">
+      <stop offset="0%" stop-color="#234f91"/>
+      <stop offset="100%" stop-color="#00154a"/>
+    </radialGradient>
+
+    <clipPath id="circleClip">
+      <circle cx="256" cy="256" r="250"/>
+    </clipPath>
+
+    <filter id="starGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="moonGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <g clip-path="url(#circleClip)">
+    <!-- Sky -->
+    <rect width="512" height="512" fill="url(#sky)"/>
+
+    <!-- Moon -->
+    <g filter="url(#moonGlow)">
+      <circle cx="180" cy="185" r="92" fill="#F6E7C0"/>
+      <circle cx="230" cy="170" r="92" fill="url(#sky)"/>
+    </g>
+
+    <!-- Moon Craters -->
+    <g opacity="0.18">
+      <circle cx="138" cy="140" r="10" fill="#c9b38d"/>
+      <circle cx="130" cy="180" r="16" fill="#c9b38d"/>
+      <circle cx="145" cy="225" r="13" fill="#c9b38d"/>
+      <circle cx="170" cy="110" r="7" fill="#c9b38d"/>
+      <circle cx="180" cy="250" r="10" fill="#c9b38d"/>
+      <circle cx="205" cy="275" r="8" fill="#c9b38d"/>
+      <circle cx="150" cy="205" r="6" fill="#c9b38d"/>
+      <circle cx="165" cy="155" r="5" fill="#c9b38d"/>
+      <circle cx="190" cy="215" r="7" fill="#c9b38d"/>
+    </g>
+
+    <!-- Large Stars -->
+    <g fill="#fffdf0" filter="url(#starGlow)">
+      <path d="M300 70 L305 90 L325 95 L305 100 L300 120 L295 100 L275 95 L295 90 Z"/>
+      <path d="M420 250 L425 270 L445 275 L425 280 L420 300 L415 280 L395 275 L415 270 Z"/>
+      <path d="M95 275 L100 295 L120 300 L100 305 L95 325 L90 305 L70 300 L90 295 Z"/>
+      <path d="M395 145 L400 165 L420 170 L400 175 L395 195 L390 175 L370 170 L390 165 Z"/>
+    </g>
+
+    <!-- Medium Stars -->
+    <g fill="#fffdf0">
+      <path d="M240 165 L244 177 L256 181 L244 185 L240 197 L236 185 L224 181 L236 177 Z"/>
+      <path d="M375 340 L379 352 L391 356 L379 360 L375 372 L371 360 L359 356 L371 352 Z"/>
+      <path d="M170 385 L174 397 L186 401 L174 405 L170 417 L166 405 L154 401 L166 397 Z"/>
+      <path d="M320 355 L324 367 L336 371 L324 375 L320 387 L316 375 L304 371 L316 367 Z"/>
+    </g>
+
+    <!-- Small Stars -->
+    <g fill="#ffffff" opacity="0.9">
+      <circle cx="120" cy="80" r="2"/>
+      <circle cx="200" cy="60" r="2"/>
+      <circle cx="350" cy="55" r="2"/>
+      <circle cx="410" cy="95" r="2"/>
+      <circle cx="90" cy="150" r="2"/>
+      <circle cx="270" cy="120" r="2"/>
+      <circle cx="330" cy="180" r="2"/>
+      <circle cx="455" cy="200" r="2"/>
+      <circle cx="135" cy="350" r="2"/>
+      <circle cx="225" cy="430" r="2"/>
+      <circle cx="350" cy="400" r="2"/>
+      <circle cx="430" cy="350" r="2"/>
+      <circle cx="280" cy="250" r="2"/>
+      <circle cx="370" cy="260" r="2"/>
+      <circle cx="210" cy="300" r="2"/>
+      <circle cx="150" cy="250" r="2"/>
+      <circle cx="380" cy="110" r="2"/>
+      <circle cx="430" cy="180" r="2"/>
+      <circle cx="300" cy="420" r="2"/>
+      <circle cx="170" cy="420" r="2"/>
+    </g>
+
+    <!-- Back Clouds -->
+    <path
+      d="M0 390
+         Q30 350 70 370
+         Q90 335 130 360
+         Q160 325 205 355
+         Q240 315 290 350
+         Q330 320 380 355
+         Q420 320 470 360
+         Q490 330 512 350
+         L512 512
+         L0 512 Z"
+      fill="#001d63"/>
+
+    <!-- Front Clouds -->
+    <path
+      d="M0 425
+         Q25 390 65 410
+         Q95 370 140 405
+         Q170 370 220 400
+         Q260 365 310 400
+         Q350 370 395 405
+         Q440 370 512 420
+         L512 512
+         L0 512 Z"
+      fill="#00134a"/>
+  </g>
+
+  <!-- Circular Border -->
+  <circle
+    cx="256"
+    cy="256"
+    r="250"
+    fill="none"
+    stroke="#00103a"
+    stroke-width="8"/>
+</svg>`
+        
+    }
 
     return iconFiles[group] || "default.svg";
 }
-for (let i=0;i<24;i++){
-    document.querySelector(".hourly-weather-"+ i ).innerHTML=getWeatherIcon(weather.forecast.forecastday[0].hour[i].condition.code);
+for (let i = 0; i < 24; i++) {
+    document.querySelector(".hourly-weather-" + i).innerHTML = getWeatherIcon(weather.forecast.forecastday[0].hour[i].condition.code,weather.forecast.forecastday[0].hour[i].is_day);
+}
+
+
+
+
+const selectedBox = document.querySelector(".selected-box");
+const cards = document.querySelectorAll(".forecast > div:not(.selected-box)");
+
+cards.forEach((card, index) => {
+    card.addEventListener("click", () => {
+
+        selectedBox.style.transform = `translateX(${card.offsetLeft}px)`;
+
+        updateWeather(index);
+    });
+});
+
+function updateWeather(dayIndex) {
+
+    if (dayIndex === 0) {
+        console.log("Today selected");
+        // Show today's weather
+    }
+
+    else if (dayIndex === 1) {
+        console.log("Tomorrow selected");
+        // Show tomorrow's weather
+    }
+
+    else if (dayIndex === 2) {
+        console.log("Day after tomorrow selected");
+        // Show day after tomorrow's weather
+    }
 }

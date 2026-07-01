@@ -2,7 +2,8 @@
         <p class="footer-content">&copy; on accordance to Tanmay Gupta</p>
     </footer>
     <script>
-        const weather = <%- JSON.stringify(weather) %>;
+        const weather = <%- JSON.stringify(locals.weather) %>;
+        const weatherType = <%- JSON.stringify(locals.weatherType) %>;
     </script>
     <script src="/javascript/script.js"></script>
     </body>

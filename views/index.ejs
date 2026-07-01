@@ -174,19 +174,7 @@
                                 <h1><span class="temp-number">
                                         <%= Math.floor(locals.weather.current.temp_c) %>
                                     </span><span class="degree-symbol">°C</span></h1>
-                                <p class="weather-type">
-                                    <% if ( weatherType===`Thunder`) { %>
-                                        Thunder Storm
-                                        <% } else if( weatherType===`Sunny`){ %>
-                                            <% if( locals.weather.current.is_day===1){ %>
-                                                Sunny
-                                                <% } else { %>
-                                                    Clear Sky
-                                                    <% } %>
-                                                        <% } else { %>
-                                                            <%= weatherType %>
-                                                                <% } %>
-                                </p>
+                                <p class="weather-type"></p>
                                 <p class="feels-like">Feels like <%= locals.weather.current.feelslike_c %>°C</p>
                                 <p class="lats-longs">
                                     <%= locals.weather.location.lat %> · <%= locals.weather.location.lon %>
@@ -201,20 +189,7 @@
                                             d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
                                     </svg>
                                     <p> UV <%= Math.floor(locals.weather.current.uv) %> ·</p>
-                                    <% if (locals.weather.current.uv>= 0 && locals.weather.current.uv<= 2) { %>
-                                            <p>Low</p>
-                                            <% } else if (locals.weather.current.uv>= 3 && locals.weather.current.uv
-                                                <=5) { %>
-                                                    <p>Moderate</p>
-                                                    <% } else if (locals.weather.current.uv>= 6 &&
-                                                        locals.weather.current.uv <= 7) { %>
-                                                            <p>High</p>
-                                                            <% } else if (locals.weather.current.uv>= 8 &&
-                                                                locals.weather.current.uv <= 10) { %>
-                                                                    <p>Very High</p>
-                                                                    <% } else { %>
-                                                                        <p>Extreme</p>
-                                                                        <% } %>
+                                    <p class="uv-text"></p>
                                 </div>
                                 <div class="weather-sticker">
                                     <% if (weatherType==="Raining" ) { %>
@@ -929,6 +904,7 @@
             </form>
         </section>
         <section class="forecast">
+            <div class="selected-box choosed-today"></div>
             <div class="today">
                 <p>Today</p>
                 <div class="weather-sticker">
@@ -2844,7 +2820,7 @@
                             <% } %>
                         </p>
                         <div class="hourly-weather-<%= i %>"></div>
-                        <p> <%= weather.forecast.forecastday[0].hour[i].temp_c %>°C </p>
+                        <p class="hourly-temperature"> <%= Math.floor(weather.forecast.forecastday[0].hour[i].temp_c) %>°C </p>
                         <% if (weather.forecast.forecastday[0].hour[i].will_it_rain) { %> 
                             <div class="precipitation">
                                 <svg class="precipitation-icon" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#2f2fc6" transform="matrix(1, 0, 0, 1, 0, 0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#270707" stroke-width="0.048"></g><g id="SVGRepo_iconCarrier"> <path d="M21 14.7C21 18.1794 19.0438 21 15.5 21C11.9562 21 10 18.1794 10 14.7C10 11.2206 15.5 3 15.5 3C15.5 3 21 11.2206 21 14.7Z" stroke="#7777f3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9 6C9 7.65685 7.65685 9 6 9C4.34315 9 3 7.65685 3 6C3 4.34315 4.34315 3 6 3C7.65685 3 9 4.34315 9 6Z" stroke="#7777f3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
@@ -2855,7 +2831,81 @@
                     <% } %>
                 </div>
             </section>
-            <% } %>
+            <section class="other-details">
+                <div class="sunrise details-grid">
+                    <div class="details-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="other-details-icons sunrise-icon"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 18H2M6.31412 12.3141L4.8999 10.8999M17.6858 12.3141L19.1 10.8999M22 18H20M7 18C7 15.2386 9.23858 13 12 13C14.7614 13 17 15.2386 17 18M22 22H2M16 6L12 2M12 2L8 6M12 2V9" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    </div>
+                    <div class="details-text">
+                        <p>SUNRISE</p>
+                        <p><%=weather.forecast.forecastday[0].astro.sunrise%></p>
+                    </div>
+                </div>
+                <div class="sunset details-grid">
+                    <div class="details-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="other-details-icons sunset-icon"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 18H2M6.31412 12.3141L4.8999 10.8999M17.6858 12.3141L19.1 10.8999M22 18H20M7 18C7 15.2386 9.23858 13 12 13C14.7614 13 17 15.2386 17 18M22 22H2M16 5L12 9M12 9L8 5M12 9V2" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    </div>
+                    <div class="details-text">
+                        <p>SUNSET</p>
+                        <p><%=weather.forecast.forecastday[0].astro.sunset%></p>
+                    </div>
+                </div>
+                <div class="uv-index details-grid">
+                    <div class="details-icon">
+                        <svg viewBox="0 0 1024 1024" class="icon" xmlns="http://www.w3.org/2000/svg" fill="#000000" class="other-details-icons uv-index-icon"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="#000000" d="M512 704a192 192 0 100-384 192 192 0 000 384zm0 64a256 256 0 110-512 256 256 0 010 512zM512 64a32 32 0 0132 32v64a32 32 0 01-64 0V96a32 32 0 0132-32zm0 768a32 32 0 0132 32v64a32 32 0 11-64 0v-64a32 32 0 0132-32zM195.2 195.2a32 32 0 0145.248 0l45.248 45.248a32 32 0 11-45.248 45.248L195.2 240.448a32 32 0 010-45.248zm543.104 543.104a32 32 0 0145.248 0l45.248 45.248a32 32 0 01-45.248 45.248l-45.248-45.248a32 32 0 010-45.248zM64 512a32 32 0 0132-32h64a32 32 0 010 64H96a32 32 0 01-32-32zm768 0a32 32 0 0132-32h64a32 32 0 110 64h-64a32 32 0 01-32-32zM195.2 828.8a32 32 0 010-45.248l45.248-45.248a32 32 0 0145.248 45.248L240.448 828.8a32 32 0 01-45.248 0zm543.104-543.104a32 32 0 010-45.248l45.248-45.248a32 32 0 0145.248 45.248l-45.248 45.248a32 32 0 01-45.248 0z"></path></g></svg>
+                    </div>
+                    <div class="details-text">
+                        <p>UV INDEX</p>
+                        <p> <%=weather.current.uv%> <br> <span class="uv-status"></span></p>
+                    </div>
+                </div>
+                <div class="sky details-grid">
+                    <div class="details-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="other-details-icons sky-icon"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M3 13.6493C3 16.6044 5.41766 19 8.4 19L16.5 19C18.9853 19 21 16.9839 21 14.4969C21 12.6503 19.8893 10.9449 18.3 10.25C18.1317 7.32251 15.684 5 12.6893 5C10.3514 5 8.34694 6.48637 7.5 8.5C4.8 8.9375 3 11.2001 3 13.6493Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    </div>
+                    <div class="details-text">
+                        <p>SKY</p>
+                        <p class="sky-value"></p>
+                    </div>
+                </div>
+                <div class="high/low details-grid">
+                    <div class="details-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="other-details-icons high-low-icon"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.5 4.5C14.5 3.11929 13.3807 2 12 2C10.6193 2 9.5 3.11929 9.5 4.5V13.7578C8.29401 14.565 7.5 15.9398 7.5 17.5C7.5 19.9853 9.51472 22 12 22C14.4853 22 16.5 19.9853 16.5 17.5C16.5 15.9398 15.706 14.565 14.5 13.7578V4.5Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 18.5C12.5523 18.5 13 18.0523 13 17.5C13 16.9477 12.5523 16.5 12 16.5C11.4477 16.5 11 16.9477 11 17.5C11 18.0523 11.4477 18.5 12 18.5Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    </div>
+                    <div class="details-text">
+                        <p>HIGH / LOW</p>
+                        <p><%= weather.forecast.forecastday[0].day.maxtemp_c %>°/<%=weather.forecast.forecastday[0].day.mintemp_c %>°</p>
+                    </div>
+                </div>
+                <div class="wind details-grid">
+                    <div class="details-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="other-details-icons wind-icon"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.7639 7C16.3132 6.38625 17.1115 6 18 6C19.6569 6 21 7.34315 21 9C21 10.6569 19.6569 12 18 12H3M8.50926 4.66667C8.87548 4.2575 9.40767 4 10 4C11.1046 4 12 4.89543 12 6C12 7.10457 11.1046 8 10 8H3M11.5093 19.3333C11.8755 19.7425 12.4077 20 13 20C14.1046 20 15 19.1046 15 18C15 16.8954 14.1046 16 13 16H3" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    </div>
+                    <div class="details-text">
+                        <p>WIND</p>
+                        <p><%=weather.current.wind_kph %> km/h</p>  
+                    </div>
+                </div>
+                <div class="humidity details-grid">
+                    <div class="details-icon">
+                        <svg class="other-details-icons humidity-icon" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#2f2fc6" transform="matrix(1, 0, 0, 1, 0, 0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#270707" stroke-width="0.048"></g><g id="SVGRepo_iconCarrier"> <path d="M21 14.7C21 18.1794 19.0438 21 15.5 21C11.9562 21 10 18.1794 10 14.7C10 11.2206 15.5 3 15.5 3C15.5 3 21 11.2206 21 14.7Z" stroke="#7777f3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9 6C9 7.65685 7.65685 9 6 9C4.34315 9 3 7.65685 3 6C3 4.34315 4.34315 3 6 3C7.65685 3 9 4.34315 9 6Z" stroke="#7777f3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    </div>
+                    <div class="details-text">
+                        <p>HUMIDITY</p>
+                        <p><%=weather.current.humidity %>%</p>
+                    </div>
+                </div>
+                <div class="visibility details-grid">
+                    <div class="details-icon">
+                        <svg class="other-details-icons visibility-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15.0007 12C15.0007 13.6569 13.6576 15 12.0007 15C10.3439 15 9.00073 13.6569 9.00073 12C9.00073 10.3431 10.3439 9 12.0007 9C13.6576 9 15.0007 10.3431 15.0007 12Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12.0012 5C7.52354 5 3.73326 7.94288 2.45898 12C3.73324 16.0571 7.52354 19 12.0012 19C16.4788 19 20.2691 16.0571 21.5434 12C20.2691 7.94291 16.4788 5 12.0012 5Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                    </div>
+                    <div class="details-text">
+                        <p>VISIBILITY</p>
+                        <p><%=weather.current.vis_km%> km</p>
+                    </div>
+                </div>
+            </section>
+        <% } %>
             
     </main>
 

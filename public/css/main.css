@@ -228,12 +228,14 @@ html{
     justify-content: space-evenly;
 }
 .forecast{
+    position: relative;
     display:flex;
     justify-content:space-between;
     background-color: rgba(255,255,255,0.1);
     border-radius: 16px;
 
     border: 1px solid rgba(255,255,255,0.3);
+    overflow:hidden;
 }
 .today,
 .tmrw,
@@ -321,4 +323,91 @@ html{
 
 .hour p:last-child{
     padding-bottom: 10px;
+
+}
+.hour p.hourly-temperature{
+    color:rgba(255, 255 ,255 , 1);
+    font-size: 1.6rem;
+}
+
+
+.other-details{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 16px;
+
+    border: 1px solid rgba(255,255,255,0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.details-grid{
+    display:grid;
+    grid-template-columns: 32px 1fr;
+    column-gap: 1rem;
+    padding:20px;
+
+    border-top: 1px solid rgba(255,255,255,0.3);
+
+}
+.sunset,
+.sunrise{
+    border:none;
+}
+.details-grid:nth-child(odd){
+    border-right: 1px solid rgba(255,255,255,0.3);
+}
+.details-text p:first-child{
+    color: rgba(255,255,255,0.4);
+}
+.details-text p:last-child{
+    font-size:1.6rem;
+    color:rgba(255,255,255);
+    font-weight: 700;
+}
+.details-icon{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    width:18px;
+}
+.uv-status{
+    font-size: 1.4rem;
+}
+.other-details-icons{
+    height:18px;
+    width:18px;
+}
+.sunrise-icon path{
+    stroke:rgba(255, 255, 0);
+}
+.sunset-icon path{
+    stroke:#DEA161;
+}
+.uv-index path{
+    fill:orange;
+}
+.high-low-icon path{
+    stroke:#d39228;
+}
+.sky-icon path{
+    stroke:#8ab0df;
+}
+.wind-icon path{
+    stroke:#74a1d8;
+}
+.visibility-icon path{
+    stroke:#7be7b8;
+}
+
+
+
+.selected-box{
+    position: absolute;
+    top:0;
+    left:0;
+    width: 166.666px;
+    height: 140px;
+    transition: transform 0.3s ease;
+
+    background-color: rgba(255,255,255,0.2);
 }
