@@ -171,9 +171,10 @@
                                         <%= locals.city %>, <%= locals.weather.location.country %>
                                     </p>
                                 </div>
-                                <h1><span class="temp-number">
-                                        <%= Math.floor(locals.weather.current.temp_c) %>
-                                    </span><span class="degree-symbol">°C</span></h1>
+                                <h1 class="estimated-temperature">
+                                    <span class="temp-number"><%= Math.floor(locals.weather.current.temp_c)%></span>
+                                        <span class="degree-symbol">°C</span>
+                                </h1>
                                 <p class="weather-type"></p>
                                 <p class="feels-like">Feels like <%= locals.weather.current.feelslike_c %>°C</p>
                                 <p class="lats-longs">
@@ -184,11 +185,11 @@
                                 <div class="uv">
                                     <script>window.uv = <%= locals.weather.current.uv %> ; </script>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="uv-icon">
+                                        stroke-width="1.5" stroke="currentColor" class="uv-icon uv-svg">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
                                     </svg>
-                                    <p> UV <%= Math.floor(locals.weather.current.uv) %> ·</p>
+                                    <p class="uv-weather-section-text"> UV <%= Math.floor(locals.weather.current.uv) %> ·</p>
                                     <p class="uv-text"></p>
                                 </div>
                                 <div class="weather-sticker">
@@ -2820,13 +2821,11 @@
                             <% } %>
                         </p>
                         <div class="hourly-weather-<%= i %>"></div>
-                        <p class="hourly-temperature"> <%= Math.floor(weather.forecast.forecastday[0].hour[i].temp_c) %>°C </p>
-                        <% if (weather.forecast.forecastday[0].hour[i].will_it_rain) { %> 
-                            <div class="precipitation">
-                                <svg class="precipitation-icon" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#2f2fc6" transform="matrix(1, 0, 0, 1, 0, 0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#270707" stroke-width="0.048"></g><g id="SVGRepo_iconCarrier"> <path d="M21 14.7C21 18.1794 19.0438 21 15.5 21C11.9562 21 10 18.1794 10 14.7C10 11.2206 15.5 3 15.5 3C15.5 3 21 11.2206 21 14.7Z" stroke="#7777f3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9 6C9 7.65685 7.65685 9 6 9C4.34315 9 3 7.65685 3 6C3 4.34315 4.34315 3 6 3C7.65685 3 9 4.34315 9 6Z" stroke="#7777f3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-                                <p> <%= weather.forecast.forecastday[0].hour[i].precip_mm %>mm </p>
-                            </div>
-                        <% } %>
+                        <p class="hourly-temperature"> <%= Math.floor(weather.forecast.forecastday[0].hour[i].temp_c) %>°C </p> 
+                        <div class="precipitation precipitation-<%=i%>">
+                            <svg class="precipitation-icon" viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#2f2fc6" transform="matrix(1, 0, 0, 1, 0, 0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#270707" stroke-width="0.048"></g><g id="SVGRepo_iconCarrier"> <path d="M21 14.7C21 18.1794 19.0438 21 15.5 21C11.9562 21 10 18.1794 10 14.7C10 11.2206 15.5 3 15.5 3C15.5 3 21 11.2206 21 14.7Z" stroke="#7777f3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9 6C9 7.65685 7.65685 9 6 9C4.34315 9 3 7.65685 3 6C3 4.34315 4.34315 3 6 3C7.65685 3 9 4.34315 9 6Z" stroke="#7777f3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                            <p> <%= weather.forecast.forecastday[0].hour[i].precip_mm %>mm </p>
+                        </div>
                     </div>
                     <% } %>
                 </div>
@@ -2838,7 +2837,7 @@
                     </div>
                     <div class="details-text">
                         <p>SUNRISE</p>
-                        <p><%=weather.forecast.forecastday[0].astro.sunrise%></p>
+                        <p class="sunrise-text"><%=weather.forecast.forecastday[0].astro.sunrise%></p>
                     </div>
                 </div>
                 <div class="sunset details-grid">
@@ -2847,7 +2846,7 @@
                     </div>
                     <div class="details-text">
                         <p>SUNSET</p>
-                        <p><%=weather.forecast.forecastday[0].astro.sunset%></p>
+                        <p class="sunset-text"><%=weather.forecast.forecastday[0].astro.sunset%></p>
                     </div>
                 </div>
                 <div class="uv-index details-grid">
@@ -2856,7 +2855,7 @@
                     </div>
                     <div class="details-text">
                         <p>UV INDEX</p>
-                        <p> <%=weather.current.uv%> <br> <span class="uv-status"></span></p>
+                        <p class="uv-value"> <%=weather.current.uv%> <br> <span class="uv-status"></span></p>
                     </div>
                 </div>
                 <div class="sky details-grid">
@@ -2874,7 +2873,7 @@
                     </div>
                     <div class="details-text">
                         <p>HIGH / LOW</p>
-                        <p><%= weather.forecast.forecastday[0].day.maxtemp_c %>°/<%=weather.forecast.forecastday[0].day.mintemp_c %>°</p>
+                        <p class="high-low-text"><%= weather.forecast.forecastday[0].day.maxtemp_c %>°/<%=weather.forecast.forecastday[0].day.mintemp_c %>°</p>
                     </div>
                 </div>
                 <div class="wind details-grid">
@@ -2883,7 +2882,7 @@
                     </div>
                     <div class="details-text">
                         <p>WIND</p>
-                        <p><%=weather.current.wind_kph %> km/h</p>  
+                        <p class="wind-text"><%=weather.current.wind_kph %> km/h</p>  
                     </div>
                 </div>
                 <div class="humidity details-grid">
@@ -2892,7 +2891,7 @@
                     </div>
                     <div class="details-text">
                         <p>HUMIDITY</p>
-                        <p><%=weather.current.humidity %>%</p>
+                        <p class="humidity-text"><%=weather.current.humidity %>%</p>
                     </div>
                 </div>
                 <div class="visibility details-grid">
@@ -2901,7 +2900,7 @@
                     </div>
                     <div class="details-text">
                         <p>VISIBILITY</p>
-                        <p><%=weather.current.vis_km%> km</p>
+                        <p class="visibility-text"><%=weather.current.vis_km%> km</p>
                     </div>
                 </div>
             </section>

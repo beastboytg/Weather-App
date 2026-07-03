@@ -100,6 +100,9 @@ html{
     visibility: hidden;
     opacity: 0;
 }
+.display-none{
+    display: none !important;
+}
 
 .weather-emoji{
     padding:5rem 0;
@@ -179,29 +182,29 @@ html{
     color:rgba(255,255,255,0.4);
 }
 .purple{
-    stroke:purple;
-    color:purple;
-    border:1px solid purple;
+    stroke:purple !important;
+    color:purple !important;
+    border:1px solid purple 
 }
 .red{
-    stroke:red;
-    color:red;
-    border:1px solid red;
+    stroke:red !important;
+    color:red !important;
+    border:1px solid red 
 }
 .orange{
-    stroke:orange;
-    color:orange;
-    border:1px solid orange;
+    stroke:orange !important;
+    color:orange !important;
+    border:1px solid orange 
 }
 .yellow{
-    stroke:yellow;
-    color:yellow;
-    border:1px solid yellow;
+    stroke:yellow !important;
+    color:yellow !important;
+    border:1px solid yellow 
 }
 .green{
-    stroke:green;
-    color:green;
-    border:1px solid green;
+    stroke:green !important;
+    color:green !important;
+    border:1px solid green 
 }
 .uv-icon{
     height:1.4rem;
@@ -410,4 +413,9 @@ html{
     transition: transform 0.3s ease;
 
     background-color: rgba(255,255,255,0.2);
+}
+
+.expand-weather{
+    height:10rem;
+    width:10rem;
 }
