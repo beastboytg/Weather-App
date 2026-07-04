@@ -8,6 +8,9 @@ document.querySelector(".search-bar").addEventListener("blur", () => {
 
 
 let thunderTimer;
+let activeBackground = 1;
+
+
 
 
 document.querySelectorAll(".choice").forEach(city => {
@@ -79,9 +82,11 @@ if( weather.current.is_day===1){
 } else { 
     document.querySelector(".weather-type").textContent=weatherType;
     document.querySelector(".sky-value").textContent=weatherType;
-    weatherEffects(weatherType);
 }
 
+
+weatherEffects(weatherType);
+updateBackground(weatherType, weather.current.is_day);
 
 
 function dayAfterTmrw() {
@@ -617,8 +622,13 @@ function updateWeather(dayIndex) {
         } else { 
             document.querySelector(".weather-type").textContent=weatherType;
             document.querySelector(".sky-value").textContent=weatherType;
-            weatherEffects(weatherType);
         }
+        
+        
+        weatherEffects(weatherType);
+        updateBackground(weatherType, weather.current.is_day);
+
+
 
         document.querySelector(".feels-like").classList.remove("display-none");
         document.querySelector(".feels-like").innerHTML=`Feels like `+ weather.current.feelslike_c + `°C`;
@@ -689,7 +699,7 @@ function updateWeather(dayIndex) {
         }
 
         document.querySelector(".weather-sticker").innerHTML=getWeatherIcon(weather.current.condition.code,weather.current.is_day);
-        document.querySelector(".weather-sticker svg").classList.add("expand-weather");
+        document.querySelector(".weather-sticker > *").classList.add("expand-weather");
 
         document.querySelectorAll(".precipitation").forEach((precipitation, i) => {
 
@@ -718,18 +728,19 @@ function updateWeather(dayIndex) {
             document.querySelector(".weather-type").textContent="Thunder Storm";
             document.querySelector(".sky-value").textContent="Thunder Storm";
         } else if( forecastWeatherTMRW===`Sunny`){ 
-            if( weather.current.is_day===1){
-                document.querySelector(".weather-type").textContent="Sunny";
-                document.querySelector(".sky-value").textContent="Sunny";
-            } else { 
-                document.querySelector(".weather-type").textContent="Clear Sky";
-                document.querySelector(".sky-value").textContent="Clear Sky";
-            }
+            document.querySelector(".weather-type").textContent="Sunny";
+            document.querySelector(".sky-value").textContent="Sunny";
+        
         } else { 
             document.querySelector(".weather-type").textContent=forecastWeatherTMRW;
             document.querySelector(".sky-value").textContent=forecastWeatherTMRW;
-            weatherEffects(forecastWeatherTMRW);
         }
+        
+        
+        weatherEffects(forecastWeatherTMRW);
+        updateBackground(forecastWeatherTMRW, 1);
+
+
 
         document.querySelector(".feels-like").classList.add("display-none");
 
@@ -824,18 +835,18 @@ function updateWeather(dayIndex) {
             document.querySelector(".weather-type").textContent="Thunder Storm";
             document.querySelector(".sky-value").textContent="Thunder Storm";
         } else if( forecastWeatherDayAfterTmrw===`Sunny`){ 
-            if( weather.current.is_day===1){
-                document.querySelector(".weather-type").textContent="Sunny";
-                document.querySelector(".sky-value").textContent="Sunny";
-            } else { 
-                document.querySelector(".weather-type").textContent="Clear Sky";
-                document.querySelector(".sky-value").textContent="Clear Sky";
-            }
+            document.querySelector(".weather-type").textContent="Sunny";
+            document.querySelector(".sky-value").textContent="Sunny";
         } else { 
             document.querySelector(".weather-type").textContent=forecastWeatherDayAfterTmrw;
             document.querySelector(".sky-value").textContent=forecastWeatherDayAfterTmrw;
-            weatherEffects(forecastWeatherDayAfterTmrw);
         }
+        
+        
+        weatherEffects(forecastWeatherDayAfterTmrw);
+        updateBackground(forecastWeatherDayAfterTmrw,1);
+
+
 
         document.querySelector(".feels-like").classList.add("display-none");
 
@@ -1175,4 +1186,36 @@ async function weatherEffects(group){
 
             break;
     }
+}
+
+
+
+
+function updateBackground(group, isDay) {
+
+    const backgrounds = {
+        Sunny: isDay ? "bg-sunny" : "bg-night",
+        Cloudy: "bg-cloudy",
+        Raining: "bg-raining",
+        Thunder: "bg-thunder",
+        Snowing: "bg-snowing",
+        Foggy: "bg-foggy"
+    };
+
+    const newClass = backgrounds[group];
+
+    const current = document.getElementById(`bg${activeBackground}`);
+    const next = document.getElementById(`bg${activeBackground === 1 ? 2 : 1}`);
+
+    if (current.classList.contains(newClass)) 
+        return;
+
+    next.className = "background-layer";
+    next.style.opacity = "0";
+    next.classList.add(newClass);
+
+    next.style.opacity = "1";
+    current.style.opacity = "0";
+
+    activeBackground = activeBackground === 1 ? 2 : 1;
 }

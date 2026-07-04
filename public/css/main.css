@@ -10,13 +10,14 @@ html{
 
 .body{
     min-height: 100vh;
-    background: linear-gradient(to bottom right,#FF8C01,#88CEEA);
     display: flex;
     flex-direction: column;
     align-items: center;
+    background: linear-gradient(to bottom right,#FF8C01,#88CEEA);
+    z-index: -3;
 
     position:relative;
-    transition: all 0.6s ease;
+    transition: all 0.8s ease;
 }
 
 .main{
@@ -632,4 +633,82 @@ html{
         drop-shadow(0 0 10px #ffffff)
         drop-shadow(0 0 25px #90caf9)
         drop-shadow(0 0 60px #2196f3);
+}
+
+
+
+.bg-sunny{
+    background: linear-gradient(to bottom right,#FF8C01,#88CEEA);
+}
+.bg-night{
+    background:
+    linear-gradient(
+        180deg,
+        #081B33 0%,
+        #14365F 45%,
+        #234E7A 100%
+    );
+}
+.bg-raining{
+    background:
+    linear-gradient(
+        180deg,
+        #31465F 0%,
+        #4B6582 45%,
+        #6F8DAE 100%
+    );
+}
+.bg-thunder{
+    background:
+    linear-gradient(
+        180deg,
+        #0E1623 0%,
+        #263549 40%,
+        #46576D 100%
+    );
+}
+.bg-cloudy{
+    background:
+    linear-gradient(
+        180deg,
+        #6F8FAF 0%,
+        #87a2c0 45%,
+        #a9b4ce 100%
+    );
+}
+.bg-snowing{
+    background:
+    linear-gradient(
+        180deg,
+        #1A2A3F 0%,
+        #3F5672 45%,
+        #AFC3CF 100%
+    );
+}
+.bg-foggy{
+    background: linear-gradient(
+        180deg,
+        #536878 0%,
+        #6E808F 35%,
+        #8796A2 70%,
+        #A9B4BC 100%
+    );
+}
+
+
+
+.background-layer{
+    position: fixed;
+    inset: 0;
+    transition: opacity 3s ease;
+    opacity: 0;
+    z-index: -2;
+}
+
+#bg1{
+    opacity: 1;
+}
+
+#bg2{
+    opacity: 0;
 }

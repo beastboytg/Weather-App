@@ -359,96 +359,7 @@
                                                     </g>
                                                 </svg>
                                                 <% } else { %>
-                                                    <svg width="100" height="100" viewBox="0 0 220 220"
-                                                        xmlns="http://www.w3.org/2000/svg">
-
-                                                        <defs>
-
-                                                            <!-- Moon -->
-                                                            <radialGradient id="moonGradient">
-                                                                <stop offset="0%" stop-color="#FFF5B8" />
-                                                                <stop offset="100%" stop-color="#FFE08A" />
-                                                            </radialGradient>
-
-                                                            <!-- Moon Glow -->
-                                                            <radialGradient id="moonGlow">
-                                                                <stop offset="0%" stop-color="#FFF5B8"
-                                                                    stop-opacity="0.35" />
-                                                                <stop offset="100%" stop-color="#FFF5B8"
-                                                                    stop-opacity="0" />
-                                                            </radialGradient>
-
-                                                            <!-- Cloud -->
-                                                            <linearGradient id="cloudGradient" x1="0%" y1="0%" x2="0%"
-                                                                y2="100%">
-                                                                <stop offset="0%" stop-color="#FFFFFF" />
-                                                                <stop offset="100%" stop-color="#D9E5F5" />
-                                                            </linearGradient>
-
-                                                            <!-- Soft Shadow -->
-                                                            <filter id="shadow">
-                                                                <feDropShadow dx="0" dy="4" stdDeviation="4"
-                                                                    flood-color="#001A4D" flood-opacity="0.15" />
-                                                            </filter>
-
-                                                        </defs>
-
-                                                        <!-- Float Animation -->
-                                                        <g>
-                                                            <animateTransform attributeName="transform" type="translate"
-                                                                values="0 0;0 -5;0 0" dur="4s"
-                                                                repeatCount="indefinite" />
-
-                                                            <!-- Moon Glow -->
-                                                            <circle cx="130" cy="80" r="55" fill="url(#moonGlow)">
-                                                                <animate attributeName="r" values="55;62;55" dur="4s"
-                                                                    repeatCount="indefinite" />
-                                                            </circle>
-
-                                                            <!-- Moon -->
-                                                            <circle cx="130" cy="80" r="38" fill="url(#moonGradient)" />
-
-                                                            <!-- Moon Craters -->
-                                                            <circle cx="112" cy="62" r="5" fill="#F8DA80"
-                                                                opacity="0.35" />
-                                                            <circle cx="148" cy="70" r="7" fill="#F8DA80"
-                                                                opacity="0.35" />
-                                                            <circle cx="120" cy="96" r="8" fill="#F8DA80"
-                                                                opacity="0.35" />
-                                                            <circle cx="154" cy="98" r="6" fill="#F8DA80"
-                                                                opacity="0.35" />
-
-                                                            <!-- Cloud Front -->
-                                                            <g filter="url(#shadow)">
-
-                                                                <path d="
-                                                        M45 135
-                                                        A22 22 0 0 1 70 108
-                                                        A38 38 0 0 1 110 92
-                                                        A30 30 0 0 1 145 105
-                                                        A24 24 0 0 1 175 120
-                                                        A18 18 0 0 1 188 145
-
-                                                        L188 160
-                                                        L45 160
-                                                        Z
-                                                        " fill="url(#cloudGradient)" />
-
-                                                                <!-- Cloud bumps -->
-                                                                <circle cx="65" cy="130" r="24"
-                                                                    fill="url(#cloudGradient)" />
-                                                                <circle cx="105" cy="115" r="38"
-                                                                    fill="url(#cloudGradient)" />
-                                                                <circle cx="145" cy="125" r="30"
-                                                                    fill="url(#cloudGradient)" />
-                                                                <circle cx="178" cy="135" r="24"
-                                                                    fill="url(#cloudGradient)" />
-
-                                                            </g>
-
-                                                        </g>
-
-                                                    </svg>
+                                                    <img src="img/night_weather_icon_premium.svg" alt="Clear Night" height="100" width="100">
                                                     <% } %>
                                                         <% } else if (weatherType==="Thunder" ) {%>
                                                             <svg width="100" height="100" viewBox="0 0 220 220"
@@ -926,7 +837,7 @@
             <div class="selected-box choosed-today"></div>
             <div class="today">
                 <p>Today</p>
-                <div class="weather-sticker">
+                <div class="">
                     <% if (weatherType==="Raining" ) { %>
                         <svg width="100" height="32" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
 
@@ -1069,84 +980,7 @@
                                     </g>
                                 </svg>
                                 <% } else { %>
-                                    <svg width="32" height="32" viewBox="0 0 220 220"
-                                        xmlns="http://www.w3.org/2000/svg">
-
-                                        <defs>
-
-                                            <!-- Moon -->
-                                            <radialGradient id="moonGradient">
-                                                <stop offset="0%" stop-color="#FFF5B8" />
-                                                <stop offset="100%" stop-color="#FFE08A" />
-                                            </radialGradient>
-
-                                            <!-- Moon Glow -->
-                                            <radialGradient id="moonGlow">
-                                                <stop offset="0%" stop-color="#FFF5B8" stop-opacity="0.35" />
-                                                <stop offset="100%" stop-color="#FFF5B8" stop-opacity="0" />
-                                            </radialGradient>
-
-                                            <!-- Cloud -->
-                                            <linearGradient id="cloudGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                                <stop offset="0%" stop-color="#FFFFFF" />
-                                                <stop offset="100%" stop-color="#D9E5F5" />
-                                            </linearGradient>
-
-                                            <!-- Soft Shadow -->
-                                            <filter id="shadow">
-                                                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#001A4D"
-                                                    flood-opacity="0.15" />
-                                            </filter>
-
-                                        </defs>
-
-                                        <!-- Float Animation -->
-                                        <g>
-                                            <animateTransform attributeName="transform" type="translate"
-                                                values="0 0;0 -5;0 0" dur="4s" repeatCount="indefinite" />
-
-                                            <!-- Moon Glow -->
-                                            <circle cx="130" cy="80" r="55" fill="url(#moonGlow)">
-                                                <animate attributeName="r" values="55;62;55" dur="4s"
-                                                    repeatCount="indefinite" />
-                                            </circle>
-
-                                            <!-- Moon -->
-                                            <circle cx="130" cy="80" r="38" fill="url(#moonGradient)" />
-
-                                            <!-- Moon Craters -->
-                                            <circle cx="112" cy="62" r="5" fill="#F8DA80" opacity="0.35" />
-                                            <circle cx="148" cy="70" r="7" fill="#F8DA80" opacity="0.35" />
-                                            <circle cx="120" cy="96" r="8" fill="#F8DA80" opacity="0.35" />
-                                            <circle cx="154" cy="98" r="6" fill="#F8DA80" opacity="0.35" />
-
-                                            <!-- Cloud Front -->
-                                            <g filter="url(#shadow)">
-
-                                                <path d="
-                                                        M45 135
-                                                        A22 22 0 0 1 70 108
-                                                        A38 38 0 0 1 110 92
-                                                        A30 30 0 0 1 145 105
-                                                        A24 24 0 0 1 175 120
-                                                        A18 18 0 0 1 188 145
-
-                                                        L188 160
-                                                        L45 160
-                                                        Z
-                                                        " fill="url(#cloudGradient)" />
-
-                                                <!-- Cloud bumps -->
-                                                <circle cx="65" cy="130" r="24" fill="url(#cloudGradient)" />
-                                                <circle cx="105" cy="115" r="38" fill="url(#cloudGradient)" />
-                                                <circle cx="145" cy="125" r="30" fill="url(#cloudGradient)" />
-                                                <circle cx="178" cy="135" r="24" fill="url(#cloudGradient)" />
-
-                                            </g>
-
-                                        </g>
-
-                                    </svg>
+                                    <img src="img/night_weather_icon_premium.svg" alt="Clear Night" height="32" width="32">
                                     <% } %>
                                         <% } else if (weatherType==="Thunder" ) {%>
                                             <svg width="32" height="32" viewBox="0 0 220 220"
@@ -1558,7 +1392,7 @@
             </div>
             <div class="tmrw">
                 <p>TMRW</p>
-                <div class="weather-sticker">
+                <div class="">
                     <% if (forecastWeatherTMRW==="Raining" ) { %>
                         <svg width="32" height="32" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
 
@@ -2190,7 +2024,7 @@
             </div>
             <div class="day-after-tmrw-container">
                 <p class="day-after-tmrw"></p>
-                <div class="weather-sticker">
+                <div class="">
                     <% if (forecastWeatherDayAfterTmrw==="Raining" ) { %>
                         <svg width="32" height="32" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
 
