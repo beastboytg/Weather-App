@@ -1,5 +1,23 @@
 <%- include("partials/header.ejs") %>
     <main class="main">
+        <div class="weather-effects">
+            <div class="rain"></div>
+            <div class="snow"></div>
+            <div class="fog"></div>
+            <div class="thunder-flash">
+                <svg class="lightning" viewBox="0 0 100 140">
+                    <path d="
+                        M52 0
+                        L20 70
+                        L48 70
+                        L35 140
+                        L82 55
+                        L56 55
+                        L70 0
+                        Z"/>
+                </svg>
+            </div>
+        </div>
         <section class="search-bar-section">
             <form class="input-form" action="/weather" method="GET" autocomplete="off">
                 <div class="search-wrapper">

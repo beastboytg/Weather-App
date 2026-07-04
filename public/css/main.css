@@ -14,6 +14,9 @@ html{
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    position:relative;
+    transition: all 0.6s ease;
 }
 
 .main{
@@ -418,4 +421,215 @@ html{
 .expand-weather{
     height:10rem;
     width:10rem;
+}
+
+
+
+
+.rain{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    overflow:hidden;
+}
+
+.raindrop{
+
+    position:absolute;
+
+    top:-30px;
+
+    width:2px;
+
+    height:18px;
+
+    background:linear-gradient(
+        transparent,
+        rgba(170,220,255,.9)
+    );
+
+    animation:rain linear infinite;
+}
+
+@keyframes rain{
+
+    to{
+
+        transform:translateY(var(--rain-distance));
+
+    }
+
+}
+
+
+
+.snow{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    pointer-events:none;
+    overflow:hidden;
+}
+
+.snowflake{
+
+    position:absolute;
+
+    top:-20px;
+
+    width:5px;
+
+    height:5px;
+
+    border-radius:50%;
+
+    background:rgba(255, 255, 255, 0.6);
+
+    animation:snow linear infinite;
+}
+
+@keyframes snow{
+
+    to{
+
+        transform:
+            translateY(var(--snow-distance))
+    }
+
+}
+
+
+
+.fog{
+
+    position:absolute;
+
+    inset:0;
+
+    overflow:hidden;
+
+    pointer-events:none;
+
+}
+
+.fog-layer{
+
+    position:absolute;
+
+    left:-60%;
+
+    width:220%;
+
+    height:70px;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.15),
+        rgba(255,255,255,.35),
+        rgba(255,255,255,.15),
+        transparent
+    );
+
+    filter:blur(18px);
+
+    opacity: 0;
+
+    animation:
+        fogFadeIn .8s ease forwards,
+        fogMove 18s linear infinite;
+
+}
+
+@keyframes fogFadeIn{
+
+    from{
+        opacity:0;
+    }
+
+    to{
+        opacity:1;
+    }
+
+}
+
+@keyframes fogMove{
+
+    from{
+
+        transform:translateX(0);
+
+    }
+
+    to{
+
+        transform:translateX(35%);
+
+    }
+
+}
+
+
+.weather-effects{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:0;
+}
+
+
+.rain,
+.snow,
+.fog{
+    opacity: 1;
+    transition: opacity 0.6s ease;
+}
+
+
+
+.thunder{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+}
+
+.thunder-flash{
+
+    position:absolute;
+    inset:0;
+
+    background:#ffffff;
+
+    opacity:0;
+}
+
+.lightning{
+    position:absolute;
+
+    width:160px;
+
+    top:0;
+    left:68%;
+
+    fill: #E3F2FD;;
+
+    opacity:0;
+
+    z-index: 9999;   
+
+    pointer-events:none;
+
+    filter:
+        drop-shadow(0 0 10px #ffffff)
+        drop-shadow(0 0 25px #90caf9)
+        drop-shadow(0 0 60px #2196f3);
 }

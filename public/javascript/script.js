@@ -7,11 +7,13 @@ document.querySelector(".search-bar").addEventListener("blur", () => {
 });
 
 
+let thunderTimer;
+
 
 document.querySelectorAll(".choice").forEach(city => {
     city.addEventListener("click", () => {
         document.querySelector(".search-bar").value = city.textContent.trim();
-
+        
         document.querySelector(".input-form").submit();
     });
 });
@@ -77,6 +79,7 @@ if( weather.current.is_day===1){
 } else { 
     document.querySelector(".weather-type").textContent=weatherType;
     document.querySelector(".sky-value").textContent=weatherType;
+    weatherEffects(weatherType);
 }
 
 
@@ -614,6 +617,7 @@ function updateWeather(dayIndex) {
         } else { 
             document.querySelector(".weather-type").textContent=weatherType;
             document.querySelector(".sky-value").textContent=weatherType;
+            weatherEffects(weatherType);
         }
 
         document.querySelector(".feels-like").classList.remove("display-none");
@@ -724,6 +728,7 @@ function updateWeather(dayIndex) {
         } else { 
             document.querySelector(".weather-type").textContent=forecastWeatherTMRW;
             document.querySelector(".sky-value").textContent=forecastWeatherTMRW;
+            weatherEffects(forecastWeatherTMRW);
         }
 
         document.querySelector(".feels-like").classList.add("display-none");
@@ -829,6 +834,7 @@ function updateWeather(dayIndex) {
         } else { 
             document.querySelector(".weather-type").textContent=forecastWeatherDayAfterTmrw;
             document.querySelector(".sky-value").textContent=forecastWeatherDayAfterTmrw;
+            weatherEffects(forecastWeatherDayAfterTmrw);
         }
 
         document.querySelector(".feels-like").classList.add("display-none");
@@ -912,5 +918,261 @@ function updateWeather(dayIndex) {
             }
             console.log("Loop is running");
         });
+    }
+}
+
+
+function createRain() {
+    const rain = document.querySelector(".rain");
+
+    const pageHeight = document.documentElement.scrollHeight;
+
+    rain.style.height = pageHeight + "px";
+
+    document.documentElement.style.setProperty(
+        "--rain-distance",
+        pageHeight + "px"
+    );
+
+    rain.innerHTML = "";
+
+    for (let i = 0; i < 140; i++) {
+
+        const drop = document.createElement("div");
+
+        drop.className = "raindrop";
+
+        drop.style.left = Math.random() * 100 + "%";
+
+        drop.style.animationDelay = Math.random() * 2 + "s";
+
+        drop.style.animationDuration =
+            (0.6 + Math.random() * 0.5) + "s";
+
+        rain.appendChild(drop);
+    }
+}
+
+
+function createSnow() {
+
+    const snow = document.querySelector(".snow");
+
+    const pageHeight = document.documentElement.scrollHeight;
+
+    snow.style.height = pageHeight + "px";
+
+    document.documentElement.style.setProperty(
+        "--snow-distance",
+        pageHeight + "px"
+    );
+
+    snow.innerHTML = "";
+
+    for(let i=0;i<90;i++){
+
+        const flake=document.createElement("div");
+
+        flake.className="snowflake";
+
+        flake.style.left=Math.random()*100+"%";
+
+        flake.style.animationDelay=Math.random()*6+"s";
+
+        flake.style.animationDuration=
+            (5+Math.random()*5)+"s";
+
+        flake.style.opacity=Math.random();
+
+        snow.appendChild(flake);
+
+    }
+
+}
+
+
+
+function createFog(){
+
+    const fog=document.querySelector(".fog");
+
+    fog.innerHTML="";
+
+    for(let i=0;i<6;i++){
+
+        const layer=document.createElement("div");
+
+        layer.className="fog-layer";
+
+        layer.style.top=(i*22)+"%";
+
+        layer.style.animationDelay=(i*2)+"s";
+
+        fog.appendChild(layer);
+
+    }
+
+}
+
+
+
+function createThunder() {
+
+    const flash = document.querySelector(".thunder-flash");
+    const bolt = document.querySelector(".lightning");
+
+    function strike() {
+
+        // ⭐ RANDOM SKY POSITION (TOP AREA ONLY)
+        const x = Math.random() * 90;
+        const y = Math.random() * 15;
+
+        bolt.style.left = x + "%";
+        bolt.style.top = y + "%";
+
+        // ⭐ RESET STATE (IMPORTANT)
+        bolt.style.opacity = 0;
+        flash.style.opacity = 0;
+
+        // ⭐ force render update (prevents invisible frames)
+        bolt.getBoundingClientRect();
+
+        // ⚡ SHOW BOLT FIRST (make it actually visible)
+        bolt.animate([
+            { opacity: 0 },
+            { opacity: 1 }
+        ], {
+            duration: 300,
+            fill: "forwards"
+        });
+
+        // 💥 MAIN FLASH + bolt sync
+        setTimeout(() => {
+
+            flash.animate([
+                { opacity: 0 },
+                { opacity: 0.5, offset: 0.2 },
+                { opacity: 0 }
+            ], {
+                duration: 160,
+                easing: "ease-out"
+            });
+
+            bolt.animate([
+                { opacity: 1 },
+                { opacity: 0 }
+            ], {
+                duration: 160,
+                fill: "forwards"
+            });
+
+        }, 180);
+
+        // ⚡ DOUBLE LIGHTNING
+        if (Math.random() < 0.35) {
+
+            setTimeout(() => {
+
+                flash.animate([
+                    { opacity: 0 },
+                    { opacity: 0.5, offset: 0.2 },
+                    { opacity: 0 }
+                ], {
+                    duration: 120
+                });
+
+                bolt.animate([
+                    { opacity: 0 },
+                    { opacity: 1 },
+                    { opacity: 0 }
+                ], {
+                    duration: 120
+                });
+
+            }, 200);
+        }
+
+        // 🔁 LOOP STORM
+        thunderTimer = setTimeout(() => {
+            strike();
+        }, 5000 + Math.random() * 8000);
+    }
+
+    strike();
+}
+
+
+function clearEffects() {
+
+    const rain = document.querySelector(".rain");
+    const snow = document.querySelector(".snow");
+    const fog = document.querySelector(".fog");
+
+    const flash = document.querySelector(".thunder-flash");
+    const bolt = document.querySelector(".lightning");
+
+    clearTimeout(thunderTimer);
+
+    const hasEffects =
+        rain.children.length ||
+        snow.children.length ||
+        fog.children.length;
+
+    if (!hasEffects) {
+        return Promise.resolve();
+    }
+
+    rain.classList.add("fade-out");
+    snow.classList.add("fade-out");
+    fog.classList.add("fade-out");
+
+    if (flash) flash.style.opacity = "0";
+    if (bolt) bolt.style.opacity = "0";
+
+    return new Promise(resolve => {
+
+        setTimeout(() => {
+
+            rain.innerHTML = "";
+            snow.innerHTML = "";
+            fog.innerHTML = "";
+
+            rain.classList.remove("fade-out");
+            snow.classList.remove("fade-out");
+            fog.classList.remove("fade-out");
+
+            resolve();
+
+        }, 600);
+
+    });
+
+}
+
+async function weatherEffects(group){
+
+    await clearEffects();
+
+    switch(group){
+
+        case "Raining":
+            createRain();
+            break;
+
+        case "Snowing":
+            createSnow();
+            break;
+
+        case "Foggy":
+            createFog();
+            break;
+        
+        case "Thunder":
+
+            createRain();   
+
+            createThunder();
+
+            break;
     }
 }
