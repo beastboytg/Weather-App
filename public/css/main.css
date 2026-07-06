@@ -786,11 +786,7 @@ html{
 }
 
 
-/* ============================================
-   RESPONSIVE MEDIA QUERIES
-   ============================================ */
 
-/* Tablet / Large Mobile (≤ 600px) */
 @media (max-width: 600px) {
     html {
         font-size: 56.25%; /* 9px base */
@@ -857,19 +853,12 @@ html{
         height: 14rem;
     }
 
-    /* Stack weather container vertically on very small screens */
+    /* Keep weather container same as desktop layout */
     .weather-container {
-        flex-direction: column-reverse;
-        align-items: center;
-        gap: 1.6rem;
-        padding-top: 3.2rem;
-    }
-
-    .uv-and-weather-emoji {
         flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 2rem;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding-top: 3.2rem;
     }
 
     /* Expand weather icon slightly */
