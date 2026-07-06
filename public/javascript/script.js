@@ -1,3 +1,22 @@
+const error_sound = new Audio("sound/wrong.mp3");
+
+
+document.querySelectorAll(".choice").forEach(city => {
+    city.addEventListener("click", () => {
+        document.querySelector(".search-bar").value = city.textContent.trim();
+
+        document.querySelector(".input-form").submit();
+    });
+});
+
+
+
+document.querySelector("#weatherForm").addEventListener("submit", () => {
+    document.querySelector(".main").classList.add("loading");
+});
+
+
+
 document.querySelector(".search-bar").addEventListener("focus", () => {
     document.querySelector(".suggestions").classList.remove("hidden");
 });
@@ -7,121 +26,126 @@ document.querySelector(".search-bar").addEventListener("blur", () => {
 });
 
 
-let thunderTimer;
-let activeBackground = 1;
 
+if (hasError) {
+    document.addEventListener("DOMContentLoaded", () => {
+        document.body.classList.add("bg-error");
 
-
-
-document.querySelectorAll(".choice").forEach(city => {
-    city.addEventListener("click", () => {
-        document.querySelector(".search-bar").value = city.textContent.trim();
-        
-        document.querySelector(".input-form").submit();
+        setTimeout(() => {
+            document.body.classList.remove("bg-error");
+        }, 500);
+        error_sound.play();
     });
-});
-
-
-
-const uv_index = document.querySelector(".uv");
-const uv_emoji = document.querySelector(".uv-icon");
-const uv_text = document.querySelector(".uv-text");
-const uv_status = document.querySelector(".uv-status");
-const uv_value = document.querySelector(".uv-value");
-if (window.uv >= 11) {
-    uv_index.classList.add("purple");
-    uv_emoji.classList.add("purple");
-    uv_value.classList.add("purple");
-    uv_value.style.border="none";
-    uv_text.textContent = "Extreme";
-    uv_status.textContent = "Extreme";
-} else if (window.uv <= 10.99 && window.uv >= 8) {
-    uv_index.classList.add("red");
-    uv_emoji.classList.add("red");
-    uv_value.classList.add("red");
-    uv_value.style.border="none";
-    uv_text.textContent = "Very High";
-    uv_status.textContent = "Very High";
-} else if (window.uv <= 7.99 && window.uv >= 6) {
-    uv_index.classList.add("orange");
-    uv_emoji.classList.add("orange");
-    uv_value.classList.add("orange");
-    uv_value.style.border="none";
-    uv_text.textContent ="High";
-    uv_status.textContent ="High";
-} else if (window.uv <= 5.99 && window.uv >= 3) {
-    uv_index.classList.add("yellow");
-    uv_emoji.classList.add("yellow");
-    uv_value.classList.add("yellow");
-    uv_value.style.border="none";
-    uv_text.textContent="Moderate";
-    uv_status.textContent="Moderate";
 } else {
-    uv_index.classList.add("green");
-    uv_emoji.classList.add("green");
-    uv_value.classList.add("green");
-    uv_value.style.border="none";
-    uv_text.textContent="Low";
-    uv_status.textContent="Low";
-}
+
+
+
+    let thunderTimer;
+    let activeBackground = 1;
 
 
 
 
-if ( weatherType===`Thunder`) { 
-    document.querySelector(".weather-type").textContent="Thunder Storm";
-    document.querySelector(".sky-value").textContent="Thunder Storm";
-} else if( weatherType===`Sunny`){ 
-if( weather.current.is_day===1){
-    document.querySelector(".weather-type").textContent="Sunny";
-    document.querySelector(".sky-value").textContent="Sunny";
-} else { 
-    document.querySelector(".weather-type").textContent="Clear Sky";
-    document.querySelector(".sky-value").textContent="Clear Sky";
-}
-} else { 
-    document.querySelector(".weather-type").textContent=weatherType;
-    document.querySelector(".sky-value").textContent=weatherType;
-}
+
+    const uv_index = document.querySelector(".uv");
+    const uv_emoji = document.querySelector(".uv-icon");
+    const uv_text = document.querySelector(".uv-text");
+    const uv_status = document.querySelector(".uv-status");
+    const uv_value = document.querySelector(".uv-value");
+    if (window.uv >= 11) {
+        uv_index.classList.add("purple");
+        uv_emoji.classList.add("purple");
+        uv_value.classList.add("purple");
+        uv_value.style.border = "none";
+        uv_text.textContent = "Extreme";
+        uv_status.textContent = "Extreme";
+    } else if (window.uv <= 10.99 && window.uv >= 8) {
+        uv_index.classList.add("red");
+        uv_emoji.classList.add("red");
+        uv_value.classList.add("red");
+        uv_value.style.border = "none";
+        uv_text.textContent = "Very High";
+        uv_status.textContent = "Very High";
+    } else if (window.uv <= 7.99 && window.uv >= 6) {
+        uv_index.classList.add("orange");
+        uv_emoji.classList.add("orange");
+        uv_value.classList.add("orange");
+        uv_value.style.border = "none";
+        uv_text.textContent = "High";
+        uv_status.textContent = "High";
+    } else if (window.uv <= 5.99 && window.uv >= 3) {
+        uv_index.classList.add("yellow");
+        uv_emoji.classList.add("yellow");
+        uv_value.classList.add("yellow");
+        uv_value.style.border = "none";
+        uv_text.textContent = "Moderate";
+        uv_status.textContent = "Moderate";
+    } else {
+        uv_index.classList.add("green");
+        uv_emoji.classList.add("green");
+        uv_value.classList.add("green");
+        uv_value.style.border = "none";
+        uv_text.textContent = "Low";
+        uv_status.textContent = "Low";
+    }
 
 
-weatherEffects(weatherType);
-updateBackground(weatherType, weather.current.is_day);
 
 
-function dayAfterTmrw() {
-    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    if (weatherType === `Thunder`) {
+        document.querySelector(".weather-type").textContent = "Thunder Storm";
+        document.querySelector(".sky-value").textContent = "Thunder Storm";
+    } else if (weatherType === `Sunny`) {
+        if (weather.current.is_day === 1) {
+            document.querySelector(".weather-type").textContent = "Sunny";
+            document.querySelector(".sky-value").textContent = "Sunny";
+        } else {
+            document.querySelector(".weather-type").textContent = "Clear Sky";
+            document.querySelector(".sky-value").textContent = "Clear Sky";
+        }
+    } else {
+        document.querySelector(".weather-type").textContent = weatherType;
+        document.querySelector(".sky-value").textContent = weatherType;
+    }
 
-    const dayAfterTomorrow = new Date();
 
-    dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
-
-    const name = days[dayAfterTomorrow.getDay()];
-    document.querySelector(".day-after-tmrw").textContent = name;
-}
-dayAfterTmrw();
+    weatherEffects(weatherType);
+    updateBackground(weatherType, weather.current.is_day);
 
 
+    function dayAfterTmrw() {
+        const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-const weatherGroups = {
-    Sunny: [1000],
-    Cloudy: [1003, 1006, 1009],
-    Foggy: [1030, 1135, 1147, 1012, 1021],
-    Raining: [1063, 1150, 1153, 1180, 1183, 1186, 1189, 1192, 1195, 1240, 1243, 1246],
-    Snowing: [1066, 1114, 1117, 1210, 1213, 1216, 1219, 1222, 1225, 1255, 1258],
-    Thunder: [1087, 1273, 1276, 1279, 1282]
-};
+        const dayAfterTomorrow = new Date();
 
-const codeToGroup = {};
+        dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
 
-for (const [group, codes] of Object.entries(weatherGroups)) {
-    codes.forEach(code => {
-        codeToGroup[code] = group;
-    });
-}
+        const name = days[dayAfterTomorrow.getDay()];
+        document.querySelector(".day-after-tmrw").textContent = name;
+    }
+    dayAfterTmrw();
 
-const iconFiles = {
-    Sunny: `<svg width="32" height="32" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+
+
+    const weatherGroups = {
+        Sunny: [1000],
+        Cloudy: [1003, 1006, 1009],
+        Foggy: [1030, 1135, 1147, 1012, 1021],
+        Raining: [1063, 1150, 1153, 1180, 1183, 1186, 1189, 1192, 1195, 1240, 1243, 1246],
+        Snowing: [1066, 1114, 1117, 1210, 1213, 1216, 1219, 1222, 1225, 1255, 1258],
+        Thunder: [1087, 1273, 1276, 1279, 1282]
+    };
+
+    const codeToGroup = {};
+
+    for (const [group, codes] of Object.entries(weatherGroups)) {
+        codes.forEach(code => {
+            codeToGroup[code] = group;
+        });
+    }
+
+    const iconFiles = {
+        Sunny: `<svg width="32" height="32" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
                                     <defs>
                                         <radialGradient id="sunGradient">
                                             <stop offset="0%" stop-color="#FFF9A8" />
@@ -176,7 +200,7 @@ const iconFiles = {
 
                                     </g>
                                 </svg>`,
-    Cloudy: `<svg width="32" height="32" viewBox="0 0 220 220"
+        Cloudy: `<svg width="32" height="32" viewBox="0 0 220 220"
                                                     xmlns="http://www.w3.org/2000/svg">
 
                                                     <defs>
@@ -234,7 +258,7 @@ const iconFiles = {
                                                     </g>
 
                                                 </svg>`,
-    Foggy: `<svg width="32" height="32" viewBox="0 0 220 220"
+        Foggy: `<svg width="32" height="32" viewBox="0 0 220 220"
                                                             xmlns="http://www.w3.org/2000/svg">
 
                                                             <defs>
@@ -300,7 +324,7 @@ const iconFiles = {
                                                             </g>
 
                                                         </svg>`,
-    Raining: `<svg width="100" height="32" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+        Raining: `<svg width="100" height="32" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
 
                             <defs>
                                 <!-- Darker Rain Cloud -->
@@ -383,7 +407,7 @@ const iconFiles = {
                             </g>
 
                         </svg>`,
-    Snowing: `<svg width="32" height="32" viewBox="0 0 220 220"
+        Snowing: `<svg width="32" height="32" viewBox="0 0 220 220"
                                                     xmlns="http://www.w3.org/2000/svg">
 
                                                     <defs>
@@ -441,7 +465,7 @@ const iconFiles = {
                                                     </g>
 
                                                 </svg>`,
-    Thunder: `<svg width="32" height="32" viewBox="0 0 220 220"
+        Thunder: `<svg width="32" height="32" viewBox="0 0 220 220"
                                                 xmlns="http://www.w3.org/2000/svg">
 
                                                 <defs>
@@ -556,532 +580,508 @@ const iconFiles = {
                                                 </g>
 
                                             </svg>`
-};
-function getWeatherIcon(code, is_day) {
-    const group = codeToGroup[code];
+    };
+    function getWeatherIcon(code, is_day) {
+        const group = codeToGroup[code];
 
-    if (group === "Sunny" && !is_day) {
-        return `<img src="/img/night_weather_icon_premium.svg" height="32" width="32" alt="Clear Night">` 
+        if (group === "Sunny" && !is_day) {
+            return `<img src="/img/night_weather_icon_premium.svg" height="32" width="32" alt="Clear Night">`
+        }
+
+        return iconFiles[group] || "default.svg";
+    }
+    for (let i = 0; i < 24; i++) {
+        document.querySelector(".hourly-weather-" + i).innerHTML = getWeatherIcon(weather.forecast.forecastday[0].hour[i].condition.code, weather.forecast.forecastday[0].hour[i].is_day);
     }
 
-    return iconFiles[group] || "default.svg";
-}
-for (let i = 0; i < 24; i++) {
-    document.querySelector(".hourly-weather-" + i).innerHTML = getWeatherIcon(weather.forecast.forecastday[0].hour[i].condition.code,weather.forecast.forecastday[0].hour[i].is_day);
-}
 
+    document.querySelectorAll(".precipitation").forEach((precipitation, i) => {
 
-document.querySelectorAll(".precipitation").forEach((precipitation, i) => {
+        const hour = weather.forecast.forecastday[0].hour[i];
 
-    const hour = weather.forecast.forecastday[0].hour[i];
+        precipitation.querySelector("p").textContent = `${hour.precip_mm}mm`;
 
-    precipitation.querySelector("p").textContent =`${hour.precip_mm}mm`;
-
-    if (hour.will_it_rain) {
-        precipitation.classList.remove("display-none");
-    } else {
-        precipitation.classList.add("display-none");
-        console.log("display none applied");
-    }
-    console.log("Loop is running");
-});
-
-
-const selectedBox = document.querySelector(".selected-box");
-const cards = document.querySelectorAll(".forecast > div:not(.selected-box)");
-
-cards.forEach((card, index) => {
-    card.addEventListener("click", () => {
-
-        selectedBox.style.transform = `translateX(${card.offsetLeft}px)`;
-
-        updateWeather(index);
+        if (hour.will_it_rain) {
+            precipitation.classList.remove("display-none");
+        } else {
+            precipitation.classList.add("display-none");
+            console.log("display none applied");
+        }
+        console.log("Loop is running");
     });
-});
 
 
-function updateWeather(dayIndex) {
+    const selectedBox = document.querySelector(".selected-box");
+    const cards = document.querySelectorAll(".forecast > div:not(.selected-box)");
 
-    if (dayIndex === 0) {
-        console.log("Today selected");
-        document.querySelector(".estimated-temperature").innerHTML=`<span class="temp-number">`+
-                                                                    Math.floor(weather.current.temp_c)+
-                                                                    `</span><span class="degree-symbol">°C</span>`;
+    cards.forEach((card, index) => {
+        card.addEventListener("click", () => {
 
-        if ( weatherType===`Thunder`) { 
-            document.querySelector(".weather-type").textContent="Thunder Storm";
-            document.querySelector(".sky-value").textContent="Thunder Storm";
-        } else if( weatherType===`Sunny`){ 
-            if( weather.current.is_day===1){
-                document.querySelector(".weather-type").textContent="Sunny";
-                document.querySelector(".sky-value").textContent="Sunny";
-            } else { 
-                document.querySelector(".weather-type").textContent="Clear Sky";
-                document.querySelector(".sky-value").textContent="Clear Sky";
-            }
-        } else { 
-            document.querySelector(".weather-type").textContent=weatherType;
-            document.querySelector(".sky-value").textContent=weatherType;
-        }
-        
-        
-        weatherEffects(weatherType);
-        updateBackground(weatherType, weather.current.is_day);
+            selectedBox.style.transform = `translateX(${card.offsetLeft}px)`;
+
+            updateWeather(index);
+        });
+    });
 
 
+    function updateWeather(dayIndex) {
 
-        document.querySelector(".feels-like").classList.remove("display-none");
-        document.querySelector(".feels-like").innerHTML=`Feels like `+ weather.current.feelslike_c + `°C`;
+        if (dayIndex === 0) {
+            console.log("Today selected");
+            document.querySelector(".estimated-temperature").innerHTML = `<span class="temp-number">` +
+                Math.floor(weather.current.temp_c) +
+                `</span><span class="degree-symbol">°C</span>`;
 
-        const uv_index = document.querySelector(".uv");
-        const uv_emoji = document.querySelector(".uv-icon");
-        const uv_text = document.querySelector(".uv-text");
-        const uv_status = document.querySelector(".uv-status");
-        const uv_value = document.querySelector(".uv-value");
-
-        uv_index.classList.remove("purple", "red", "orange", "yellow", "green");
-        uv_emoji.classList.remove("purple", "red", "orange", "yellow", "green");
-        uv_value.classList.remove("purple", "red", "orange", "yellow", "green");
-
-        if (weather.current.uv >= 11) {
-            uv_index.classList.add("purple");
-            uv_emoji.classList.add("purple");
-            uv_value.classList.add("purple");
-            uv_value.style.border="none";
-            uv_text.textContent = "Extreme";
-            uv_status.textContent = "Extreme";
-        } else if (weather.current.uv <= 10.99 && weather.current.uv >= 8) {
-            uv_index.classList.add("red");
-            uv_emoji.classList.add("red");
-            uv_value.classList.add("red");
-            uv_value.style.border="none";
-            uv_text.textContent = "Very High";
-            uv_status.textContent = "Very High";
-        } else if (weather.current.uv <= 7.99 && weather.current.uv >= 6) {
-            uv_index.classList.add("orange");
-            uv_emoji.classList.add("orange");
-            uv_value.classList.add("orange");
-            uv_value.style.border="none";
-            uv_text.textContent ="High";
-            uv_status.textContent ="High";
-        } else if (weather.current.uv <= 5.99 && weather.current.uv >= 3) {
-            uv_index.classList.add("yellow");
-            uv_emoji.classList.add("yellow");
-            uv_value.classList.add("yellow");
-            uv_value.style.border="none";
-            uv_text.textContent="Moderate";
-            uv_status.textContent="Moderate";
-        } else {
-            uv_index.classList.add("green");
-            uv_emoji.classList.add("green");
-            uv_value.classList.add("green");
-            uv_value.style.border="none";
-            uv_text.textContent="Low";
-            uv_status.textContent="Low";
-        }
-
-        document.querySelector(".uv-weather-section-text").textContent=` UV `+Math.floor(weather.current.uv)+` ·`;
-
-        for(let i =0;i<24;i++){
-            document.querySelector(".hour-"+i+" .hourly-temperature").innerHTML= Math.floor(weather.forecast.forecastday[0].hour[i].temp_c)+`°C`;
-        }
-
-
-        document.querySelector(".sunrise-text").innerHTML=weather.forecast.forecastday[0].astro.sunrise;
-        document.querySelector(".sunset-text").innerHTML=weather.forecast.forecastday[0].astro.sunset;
-        document.querySelector(".high-low-text").innerHTML=weather.forecast.forecastday[0].day.maxtemp_c+`°/`+weather.forecast.forecastday[0].day.mintemp_c+`°`;
-        document.querySelector(".wind-text").innerHTML=weather.current.wind_kph+` km/h`;
-        document.querySelector(".humidity-text").innerHTML=weather.current.humidity+`%`;
-        document.querySelector(".visibility-text").innerHTML=weather.current.vis_km+` km`;
-
-        for (let i = 0; i < 24; i++) {
-            document.querySelector(".hourly-weather-" + i).innerHTML = getWeatherIcon(weather.forecast.forecastday[0].hour[i].condition.code,weather.forecast.forecastday[0].hour[i].is_day);
-        }
-
-        document.querySelector(".weather-sticker").innerHTML=getWeatherIcon(weather.current.condition.code,weather.current.is_day);
-        document.querySelector(".weather-sticker > *").classList.add("expand-weather");
-
-        document.querySelectorAll(".precipitation").forEach((precipitation, i) => {
-
-            const hour = weather.forecast.forecastday[0].hour[i];
-
-            precipitation.querySelector("p").textContent =`${hour.precip_mm}mm`;
-
-            if (hour.will_it_rain) {
-                precipitation.classList.remove("display-none");
+            if (weatherType === `Thunder`) {
+                document.querySelector(".weather-type").textContent = "Thunder Storm";
+                document.querySelector(".sky-value").textContent = "Thunder Storm";
+            } else if (weatherType === `Sunny`) {
+                if (weather.current.is_day === 1) {
+                    document.querySelector(".weather-type").textContent = "Sunny";
+                    document.querySelector(".sky-value").textContent = "Sunny";
+                } else {
+                    document.querySelector(".weather-type").textContent = "Clear Sky";
+                    document.querySelector(".sky-value").textContent = "Clear Sky";
+                }
             } else {
-                precipitation.classList.add("display-none");
-                console.log("display none applied");
+                document.querySelector(".weather-type").textContent = weatherType;
+                document.querySelector(".sky-value").textContent = weatherType;
             }
-            console.log("Loop is running");
-        });
 
-    }
 
-    else if (dayIndex === 1) {
-        console.log("Tomorrow selected");
-        document.querySelector(".estimated-temperature").innerHTML=`<span class="temp-number">`+
-                                                                    Math.floor(weather.forecast.forecastday[1].day.avgtemp_c)+
-                                                                    `</span><span class="degree-symbol">°C</span>`;
-
-        if ( forecastWeatherTMRW===`Thunder`) { 
-            document.querySelector(".weather-type").textContent="Thunder Storm";
-            document.querySelector(".sky-value").textContent="Thunder Storm";
-        } else if( forecastWeatherTMRW===`Sunny`){ 
-            document.querySelector(".weather-type").textContent="Sunny";
-            document.querySelector(".sky-value").textContent="Sunny";
-        
-        } else { 
-            document.querySelector(".weather-type").textContent=forecastWeatherTMRW;
-            document.querySelector(".sky-value").textContent=forecastWeatherTMRW;
-        }
-        
-        
-        weatherEffects(forecastWeatherTMRW);
-        updateBackground(forecastWeatherTMRW, 1);
+            weatherEffects(weatherType);
+            updateBackground(weatherType, weather.current.is_day);
 
 
 
-        document.querySelector(".feels-like").classList.add("display-none");
+            document.querySelector(".feels-like").classList.remove("display-none");
+            document.querySelector(".feels-like").innerHTML = `Feels like ` + weather.current.feelslike_c + `°C`;
 
-        const uv_index = document.querySelector(".uv");
-        const uv_emoji = document.querySelector(".uv-icon");
-        const uv_text = document.querySelector(".uv-text");
-        const uv_status = document.querySelector(".uv-status");
-        const uv_value = document.querySelector(".uv-value");
+            const uv_index = document.querySelector(".uv");
+            const uv_emoji = document.querySelector(".uv-icon");
+            const uv_text = document.querySelector(".uv-text");
+            const uv_status = document.querySelector(".uv-status");
+            const uv_value = document.querySelector(".uv-value");
 
-        uv_index.classList.remove("purple", "red", "orange", "yellow", "green");
-        uv_emoji.classList.remove("purple", "red", "orange", "yellow", "green");
-        uv_value.classList.remove("purple", "red", "orange", "yellow", "green");
+            uv_index.classList.remove("purple", "red", "orange", "yellow", "green");
+            uv_emoji.classList.remove("purple", "red", "orange", "yellow", "green");
+            uv_value.classList.remove("purple", "red", "orange", "yellow", "green");
 
-        if (weather.forecast.forecastday[1].day.uv >= 11) {
-            uv_index.classList.add("purple");
-            uv_emoji.classList.add("purple");
-            uv_value.classList.add("purple");
-            uv_text.textContent = "Extreme";
-           uv_value.innerHTML=weather.forecast.forecastday[1].day.uv+` <br> <span class="uv-status">Extreme</span>`;
-        } else if (weather.forecast.forecastday[1].day.uv <= 10.99 && weather.forecast.forecastday[1].day.uv >= 8) {
-            uv_index.classList.add("red");
-            uv_emoji.classList.add("red");
-            uv_value.classList.add("red");
-            uv_text.textContent = "Very High";
-            uv_value.innerHTML=weather.forecast.forecastday[1].day.uv+` <br> <span class="uv-status">Very High</span>`;
-        } else if (weather.forecast.forecastday[1].day.uv <= 7.99 && weather.forecast.forecastday[1].day.uv >= 6) {
-            uv_index.classList.add("orange");
-            uv_emoji.classList.add("orange");
-            uv_value.classList.add("orange");
-            uv_text.textContent ="High";
-            uv_value.innerHTML=weather.forecast.forecastday[1].day.uv+` <br> <span class="uv-status">High</span>`;
-        } else if (weather.forecast.forecastday[1].day.uv <= 5.99 && weather.forecast.forecastday[1].day.uv >= 3) {
-            uv_index.classList.add("yellow");
-            uv_emoji.classList.add("yellow");
-            uv_value.classList.add("yellow");
-            uv_text.textContent="Moderate";
-            uv_value.innerHTML=weather.forecast.forecastday[1].day.uv+` <br> <span class="uv-status">Moderate</span>`;
-        } else {
-            uv_index.classList.add("green");
-            uv_emoji.classList.add("green");
-            uv_value.classList.add("green");
-            uv_text.textContent="Low";
-            uv_value.innerHTML=weather.forecast.forecastday[1].day.uv+` <br> <span class="uv-status">Low</span>`;
-        }
-
-        uv_value.style.border="none";
-
-        document.querySelector(".uv-weather-section-text").textContent=` UV `+Math.floor(weather.forecast.forecastday[1].day.uv)+` ·`;
-
-        for(let i =0;i<24;i++){
-            document.querySelector(".hour-"+i+" .hourly-temperature").innerHTML= Math.floor(weather.forecast.forecastday[1].hour[i].temp_c)+`°C`;
-        }
-
-
-        document.querySelector(".sunrise-text").innerHTML=weather.forecast.forecastday[1].astro.sunrise;
-        document.querySelector(".sunset-text").innerHTML=weather.forecast.forecastday[1].astro.sunset;
-        document.querySelector(".high-low-text").innerHTML=weather.forecast.forecastday[1].day.maxtemp_c+`°/`+weather.forecast.forecastday[1].day.mintemp_c+`°`;
-        document.querySelector(".wind-text").innerHTML=weather.forecast.forecastday[1].day.maxwind_kph+` km/h`;
-        document.querySelector(".humidity-text").innerHTML=weather.forecast.forecastday[1].day.avghumidity+`%`;
-        document.querySelector(".visibility-text").innerHTML=weather.forecast.forecastday[1].day.avgvis_km+` km`;
-
-        for (let i = 0; i < 24; i++) {
-            document.querySelector(".hourly-weather-" + i).innerHTML = getWeatherIcon(weather.forecast.forecastday[1].hour[i].condition.code,weather.forecast.forecastday[1].hour[i].is_day);
-        }
-
-        document.querySelector(".weather-sticker").innerHTML=getWeatherIcon(weather.forecast.forecastday[1].day.condition.code,1);
-        document.querySelector(".weather-sticker svg").classList.add("expand-weather");
-
-        document.querySelectorAll(".precipitation").forEach((precipitation, i) => {
-
-            const hour = weather.forecast.forecastday[1].hour[i];
-
-            precipitation.querySelector("p").textContent =`${hour.precip_mm}mm`;
-
-            if (hour.will_it_rain) {
-                precipitation.classList.remove("display-none");
+            if (weather.current.uv >= 11) {
+                uv_index.classList.add("purple");
+                uv_emoji.classList.add("purple");
+                uv_value.classList.add("purple");
+                uv_value.style.border = "none";
+                uv_text.textContent = "Extreme";
+                uv_status.textContent = "Extreme";
+            } else if (weather.current.uv <= 10.99 && weather.current.uv >= 8) {
+                uv_index.classList.add("red");
+                uv_emoji.classList.add("red");
+                uv_value.classList.add("red");
+                uv_value.style.border = "none";
+                uv_text.textContent = "Very High";
+                uv_status.textContent = "Very High";
+            } else if (weather.current.uv <= 7.99 && weather.current.uv >= 6) {
+                uv_index.classList.add("orange");
+                uv_emoji.classList.add("orange");
+                uv_value.classList.add("orange");
+                uv_value.style.border = "none";
+                uv_text.textContent = "High";
+                uv_status.textContent = "High";
+            } else if (weather.current.uv <= 5.99 && weather.current.uv >= 3) {
+                uv_index.classList.add("yellow");
+                uv_emoji.classList.add("yellow");
+                uv_value.classList.add("yellow");
+                uv_value.style.border = "none";
+                uv_text.textContent = "Moderate";
+                uv_status.textContent = "Moderate";
             } else {
-                precipitation.classList.add("display-none");
-                console.log("display none applied");
+                uv_index.classList.add("green");
+                uv_emoji.classList.add("green");
+                uv_value.classList.add("green");
+                uv_value.style.border = "none";
+                uv_text.textContent = "Low";
+                uv_status.textContent = "Low";
             }
-            console.log("Loop is running");
-        });
-    }
 
-    else if (dayIndex === 2) {
-        console.log("Tomorrow selected");
-        document.querySelector(".estimated-temperature").innerHTML=`<span class="temp-number">`+
-                                                                    Math.floor(weather.forecast.forecastday[2].day.avgtemp_c)+
-                                                                    `</span><span class="degree-symbol">°C</span>`;
+            document.querySelector(".uv-weather-section-text").textContent = ` UV ` + Math.floor(weather.current.uv) + ` ·`;
 
-        if ( forecastWeatherDayAfterTmrw===`Thunder`) { 
-            document.querySelector(".weather-type").textContent="Thunder Storm";
-            document.querySelector(".sky-value").textContent="Thunder Storm";
-        } else if( forecastWeatherDayAfterTmrw===`Sunny`){ 
-            document.querySelector(".weather-type").textContent="Sunny";
-            document.querySelector(".sky-value").textContent="Sunny";
-        } else { 
-            document.querySelector(".weather-type").textContent=forecastWeatherDayAfterTmrw;
-            document.querySelector(".sky-value").textContent=forecastWeatherDayAfterTmrw;
-        }
-        
-        
-        weatherEffects(forecastWeatherDayAfterTmrw);
-        updateBackground(forecastWeatherDayAfterTmrw,1);
-
-
-
-        document.querySelector(".feels-like").classList.add("display-none");
-
-        const uv_index = document.querySelector(".uv");
-        const uv_emoji = document.querySelector(".uv-icon");
-        const uv_text = document.querySelector(".uv-text");
-        const uv_status = document.querySelector(".uv-status");
-        const uv_value = document.querySelector(".uv-value");
-
-        uv_index.classList.remove("purple", "red", "orange", "yellow", "green");
-        uv_emoji.classList.remove("purple", "red", "orange", "yellow", "green");
-        uv_value.classList.remove("purple", "red", "orange", "yellow", "green");
-
-        if (weather.forecast.forecastday[2].day.uv >= 11) {
-            uv_index.classList.add("purple");
-            uv_emoji.classList.add("purple");
-            uv_value.classList.add("purple");
-            uv_text.textContent = "Extreme";
-           uv_value.innerHTML=weather.forecast.forecastday[2].day.uv+` <br> <span class="uv-status">Extreme</span>`;
-        } else if (weather.forecast.forecastday[2].day.uv <= 10.99 && weather.forecast.forecastday[2].day.uv >= 8) {
-            uv_index.classList.add("red");
-            uv_emoji.classList.add("red");
-            uv_value.classList.add("red");
-            uv_text.textContent = "Very High";
-            uv_value.innerHTML=weather.forecast.forecastday[2].day.uv+` <br> <span class="uv-status">Very High</span>`;
-        } else if (weather.forecast.forecastday[2].day.uv <= 7.99 && weather.forecast.forecastday[2].day.uv >= 6) {
-            uv_index.classList.add("orange");
-            uv_emoji.classList.add("orange");
-            uv_value.classList.add("orange");
-            uv_text.textContent ="High";
-            uv_value.innerHTML=weather.forecast.forecastday[2].day.uv+` <br> <span class="uv-status">High</span>`;
-        } else if (weather.forecast.forecastday[2].day.uv <= 5.99 && weather.forecast.forecastday[2].day.uv >= 3) {
-            uv_index.classList.add("yellow");
-            uv_emoji.classList.add("yellow");
-            uv_value.classList.add("yellow");
-            uv_text.textContent="Moderate";
-            uv_value.innerHTML=weather.forecast.forecastday[2].day.uv+` <br> <span class="uv-status">Moderate</span>`;
-        } else {
-            uv_index.classList.add("green");
-            uv_emoji.classList.add("green");
-            uv_value.classList.add("green");
-            uv_text.textContent="Low";
-            uv_value.innerHTML=weather.forecast.forecastday[2].day.uv+` <br> <span class="uv-status">Low</span>`;
-        }
-
-        uv_value.style.border="none";
-
-        document.querySelector(".uv-weather-section-text").textContent=` UV `+Math.floor(weather.forecast.forecastday[2].day.uv)+` ·`;
-
-        for(let i =0;i<24;i++){
-            document.querySelector(".hour-"+i+" .hourly-temperature").innerHTML= Math.floor(weather.forecast.forecastday[2].hour[i].temp_c)+`°C`;
-        }
-
-
-        document.querySelector(".sunrise-text").innerHTML=weather.forecast.forecastday[2].astro.sunrise;
-        document.querySelector(".sunset-text").innerHTML=weather.forecast.forecastday[2].astro.sunset;
-        document.querySelector(".high-low-text").innerHTML=weather.forecast.forecastday[2].day.maxtemp_c+`°/`+weather.forecast.forecastday[2].day.mintemp_c+`°`;
-        document.querySelector(".wind-text").innerHTML=weather.forecast.forecastday[2].day.maxwind_kph+` km/h`;
-        document.querySelector(".humidity-text").innerHTML=weather.forecast.forecastday[2].day.avghumidity+`%`;
-        document.querySelector(".visibility-text").innerHTML=weather.forecast.forecastday[2].day.avgvis_km+` km`;
-
-        for (let i = 0; i < 24; i++) {
-            document.querySelector(".hourly-weather-" + i).innerHTML = getWeatherIcon(weather.forecast.forecastday[2].hour[i].condition.code,weather.forecast.forecastday[2].hour[i].is_day);
-        }
-
-        document.querySelector(".weather-sticker").innerHTML=getWeatherIcon(weather.forecast.forecastday[2].day.condition.code,1);
-        document.querySelector(".weather-sticker svg").classList.add("expand-weather");
-
-        document.querySelectorAll(".precipitation").forEach((precipitation, i) => {
-
-            const hour = weather.forecast.forecastday[2].hour[i];
-
-            precipitation.querySelector("p").textContent =`${hour.precip_mm}mm`;
-
-            if (hour.will_it_rain) {
-                precipitation.classList.remove("display-none");
-            } else {
-                precipitation.classList.add("display-none");
-                console.log("display none applied");
+            for (let i = 0; i < 24; i++) {
+                document.querySelector(".hour-" + i + " .hourly-temperature").innerHTML = Math.floor(weather.forecast.forecastday[0].hour[i].temp_c) + `°C`;
             }
-            console.log("Loop is running");
-        });
-    }
-}
 
 
-function createRain() {
-    const rain = document.querySelector(".rain");
+            document.querySelector(".sunrise-text").innerHTML = weather.forecast.forecastday[0].astro.sunrise;
+            document.querySelector(".sunset-text").innerHTML = weather.forecast.forecastday[0].astro.sunset;
+            document.querySelector(".high-low-text").innerHTML = weather.forecast.forecastday[0].day.maxtemp_c + `°/` + weather.forecast.forecastday[0].day.mintemp_c + `°`;
+            document.querySelector(".wind-text").innerHTML = weather.current.wind_kph + ` km/h`;
+            document.querySelector(".humidity-text").innerHTML = weather.current.humidity + `%`;
+            document.querySelector(".visibility-text").innerHTML = weather.current.vis_km + ` km`;
 
-    const pageHeight = document.documentElement.scrollHeight;
+            for (let i = 0; i < 24; i++) {
+                document.querySelector(".hourly-weather-" + i).innerHTML = getWeatherIcon(weather.forecast.forecastday[0].hour[i].condition.code, weather.forecast.forecastday[0].hour[i].is_day);
+            }
 
-    rain.style.height = pageHeight + "px";
+            document.querySelector(".weather-sticker").innerHTML = getWeatherIcon(weather.current.condition.code, weather.current.is_day);
+            document.querySelector(".weather-sticker > *").classList.add("expand-weather");
 
-    document.documentElement.style.setProperty(
-        "--rain-distance",
-        pageHeight + "px"
-    );
+            document.querySelectorAll(".precipitation").forEach((precipitation, i) => {
 
-    rain.innerHTML = "";
+                const hour = weather.forecast.forecastday[0].hour[i];
 
-    for (let i = 0; i < 140; i++) {
+                precipitation.querySelector("p").textContent = `${hour.precip_mm}mm`;
 
-        const drop = document.createElement("div");
-
-        drop.className = "raindrop";
-
-        drop.style.left = Math.random() * 100 + "%";
-
-        drop.style.animationDelay = Math.random() * 2 + "s";
-
-        drop.style.animationDuration =
-            (0.6 + Math.random() * 0.5) + "s";
-
-        rain.appendChild(drop);
-    }
-}
-
-
-function createSnow() {
-
-    const snow = document.querySelector(".snow");
-
-    const pageHeight = document.documentElement.scrollHeight;
-
-    snow.style.height = pageHeight + "px";
-
-    document.documentElement.style.setProperty(
-        "--snow-distance",
-        pageHeight + "px"
-    );
-
-    snow.innerHTML = "";
-
-    for(let i=0;i<90;i++){
-
-        const flake=document.createElement("div");
-
-        flake.className="snowflake";
-
-        flake.style.left=Math.random()*100+"%";
-
-        flake.style.animationDelay=Math.random()*6+"s";
-
-        flake.style.animationDuration=
-            (5+Math.random()*5)+"s";
-
-        flake.style.opacity=Math.random();
-
-        snow.appendChild(flake);
-
-    }
-
-}
-
-
-
-function createFog(){
-
-    const fog=document.querySelector(".fog");
-
-    fog.innerHTML="";
-
-    for(let i=0;i<6;i++){
-
-        const layer=document.createElement("div");
-
-        layer.className="fog-layer";
-
-        layer.style.top=(i*22)+"%";
-
-        layer.style.animationDelay=(i*2)+"s";
-
-        fog.appendChild(layer);
-
-    }
-
-}
-
-
-
-function createThunder() {
-
-    const flash = document.querySelector(".thunder-flash");
-    const bolt = document.querySelector(".lightning");
-
-    function strike() {
-
-        // ⭐ RANDOM SKY POSITION (TOP AREA ONLY)
-        const x = Math.random() * 90;
-        const y = Math.random() * 15;
-
-        bolt.style.left = x + "%";
-        bolt.style.top = y + "%";
-
-        // ⭐ RESET STATE (IMPORTANT)
-        bolt.style.opacity = 0;
-        flash.style.opacity = 0;
-
-        // ⭐ force render update (prevents invisible frames)
-        bolt.getBoundingClientRect();
-
-        // ⚡ SHOW BOLT FIRST (make it actually visible)
-        bolt.animate([
-            { opacity: 0 },
-            { opacity: 1 }
-        ], {
-            duration: 300,
-            fill: "forwards"
-        });
-
-        // 💥 MAIN FLASH + bolt sync
-        setTimeout(() => {
-
-            flash.animate([
-                { opacity: 0 },
-                { opacity: 0.5, offset: 0.2 },
-                { opacity: 0 }
-            ], {
-                duration: 160,
-                easing: "ease-out"
+                if (hour.will_it_rain) {
+                    precipitation.classList.remove("display-none");
+                } else {
+                    precipitation.classList.add("display-none");
+                    console.log("display none applied");
+                }
+                console.log("Loop is running");
             });
 
+        }
+
+        else if (dayIndex === 1) {
+            console.log("Tomorrow selected");
+            document.querySelector(".estimated-temperature").innerHTML = `<span class="temp-number">` +
+                Math.floor(weather.forecast.forecastday[1].day.avgtemp_c) +
+                `</span><span class="degree-symbol">°C</span>`;
+
+            if (forecastWeatherTMRW === `Thunder`) {
+                document.querySelector(".weather-type").textContent = "Thunder Storm";
+                document.querySelector(".sky-value").textContent = "Thunder Storm";
+            } else if (forecastWeatherTMRW === `Sunny`) {
+                document.querySelector(".weather-type").textContent = "Sunny";
+                document.querySelector(".sky-value").textContent = "Sunny";
+
+            } else {
+                document.querySelector(".weather-type").textContent = forecastWeatherTMRW;
+                document.querySelector(".sky-value").textContent = forecastWeatherTMRW;
+            }
+
+
+            weatherEffects(forecastWeatherTMRW);
+            updateBackground(forecastWeatherTMRW, 1);
+
+
+
+            document.querySelector(".feels-like").classList.add("display-none");
+
+            const uv_index = document.querySelector(".uv");
+            const uv_emoji = document.querySelector(".uv-icon");
+            const uv_text = document.querySelector(".uv-text");
+            const uv_status = document.querySelector(".uv-status");
+            const uv_value = document.querySelector(".uv-value");
+
+            uv_index.classList.remove("purple", "red", "orange", "yellow", "green");
+            uv_emoji.classList.remove("purple", "red", "orange", "yellow", "green");
+            uv_value.classList.remove("purple", "red", "orange", "yellow", "green");
+
+            if (weather.forecast.forecastday[1].day.uv >= 11) {
+                uv_index.classList.add("purple");
+                uv_emoji.classList.add("purple");
+                uv_value.classList.add("purple");
+                uv_text.textContent = "Extreme";
+                uv_value.innerHTML = weather.forecast.forecastday[1].day.uv + ` <br> <span class="uv-status">Extreme</span>`;
+            } else if (weather.forecast.forecastday[1].day.uv <= 10.99 && weather.forecast.forecastday[1].day.uv >= 8) {
+                uv_index.classList.add("red");
+                uv_emoji.classList.add("red");
+                uv_value.classList.add("red");
+                uv_text.textContent = "Very High";
+                uv_value.innerHTML = weather.forecast.forecastday[1].day.uv + ` <br> <span class="uv-status">Very High</span>`;
+            } else if (weather.forecast.forecastday[1].day.uv <= 7.99 && weather.forecast.forecastday[1].day.uv >= 6) {
+                uv_index.classList.add("orange");
+                uv_emoji.classList.add("orange");
+                uv_value.classList.add("orange");
+                uv_text.textContent = "High";
+                uv_value.innerHTML = weather.forecast.forecastday[1].day.uv + ` <br> <span class="uv-status">High</span>`;
+            } else if (weather.forecast.forecastday[1].day.uv <= 5.99 && weather.forecast.forecastday[1].day.uv >= 3) {
+                uv_index.classList.add("yellow");
+                uv_emoji.classList.add("yellow");
+                uv_value.classList.add("yellow");
+                uv_text.textContent = "Moderate";
+                uv_value.innerHTML = weather.forecast.forecastday[1].day.uv + ` <br> <span class="uv-status">Moderate</span>`;
+            } else {
+                uv_index.classList.add("green");
+                uv_emoji.classList.add("green");
+                uv_value.classList.add("green");
+                uv_text.textContent = "Low";
+                uv_value.innerHTML = weather.forecast.forecastday[1].day.uv + ` <br> <span class="uv-status">Low</span>`;
+            }
+
+            uv_value.style.border = "none";
+
+            document.querySelector(".uv-weather-section-text").textContent = ` UV ` + Math.floor(weather.forecast.forecastday[1].day.uv) + ` ·`;
+
+            for (let i = 0; i < 24; i++) {
+                document.querySelector(".hour-" + i + " .hourly-temperature").innerHTML = Math.floor(weather.forecast.forecastday[1].hour[i].temp_c) + `°C`;
+            }
+
+
+            document.querySelector(".sunrise-text").innerHTML = weather.forecast.forecastday[1].astro.sunrise;
+            document.querySelector(".sunset-text").innerHTML = weather.forecast.forecastday[1].astro.sunset;
+            document.querySelector(".high-low-text").innerHTML = weather.forecast.forecastday[1].day.maxtemp_c + `°/` + weather.forecast.forecastday[1].day.mintemp_c + `°`;
+            document.querySelector(".wind-text").innerHTML = weather.forecast.forecastday[1].day.maxwind_kph + ` km/h`;
+            document.querySelector(".humidity-text").innerHTML = weather.forecast.forecastday[1].day.avghumidity + `%`;
+            document.querySelector(".visibility-text").innerHTML = weather.forecast.forecastday[1].day.avgvis_km + ` km`;
+
+            for (let i = 0; i < 24; i++) {
+                document.querySelector(".hourly-weather-" + i).innerHTML = getWeatherIcon(weather.forecast.forecastday[1].hour[i].condition.code, weather.forecast.forecastday[1].hour[i].is_day);
+            }
+
+            document.querySelector(".weather-sticker").innerHTML = getWeatherIcon(weather.forecast.forecastday[1].day.condition.code, 1);
+            document.querySelector(".weather-sticker svg").classList.add("expand-weather");
+
+            document.querySelectorAll(".precipitation").forEach((precipitation, i) => {
+
+                const hour = weather.forecast.forecastday[1].hour[i];
+
+                precipitation.querySelector("p").textContent = `${hour.precip_mm}mm`;
+
+                if (hour.will_it_rain) {
+                    precipitation.classList.remove("display-none");
+                } else {
+                    precipitation.classList.add("display-none");
+                    console.log("display none applied");
+                }
+                console.log("Loop is running");
+            });
+        }
+
+        else if (dayIndex === 2) {
+            console.log("Tomorrow selected");
+            document.querySelector(".estimated-temperature").innerHTML = `<span class="temp-number">` +
+                Math.floor(weather.forecast.forecastday[2].day.avgtemp_c) +
+                `</span><span class="degree-symbol">°C</span>`;
+
+            if (forecastWeatherDayAfterTmrw === `Thunder`) {
+                document.querySelector(".weather-type").textContent = "Thunder Storm";
+                document.querySelector(".sky-value").textContent = "Thunder Storm";
+            } else if (forecastWeatherDayAfterTmrw === `Sunny`) {
+                document.querySelector(".weather-type").textContent = "Sunny";
+                document.querySelector(".sky-value").textContent = "Sunny";
+            } else {
+                document.querySelector(".weather-type").textContent = forecastWeatherDayAfterTmrw;
+                document.querySelector(".sky-value").textContent = forecastWeatherDayAfterTmrw;
+            }
+
+
+            weatherEffects(forecastWeatherDayAfterTmrw);
+            updateBackground(forecastWeatherDayAfterTmrw, 1);
+
+
+
+            document.querySelector(".feels-like").classList.add("display-none");
+
+            const uv_index = document.querySelector(".uv");
+            const uv_emoji = document.querySelector(".uv-icon");
+            const uv_text = document.querySelector(".uv-text");
+            const uv_status = document.querySelector(".uv-status");
+            const uv_value = document.querySelector(".uv-value");
+
+            uv_index.classList.remove("purple", "red", "orange", "yellow", "green");
+            uv_emoji.classList.remove("purple", "red", "orange", "yellow", "green");
+            uv_value.classList.remove("purple", "red", "orange", "yellow", "green");
+
+            if (weather.forecast.forecastday[2].day.uv >= 11) {
+                uv_index.classList.add("purple");
+                uv_emoji.classList.add("purple");
+                uv_value.classList.add("purple");
+                uv_text.textContent = "Extreme";
+                uv_value.innerHTML = weather.forecast.forecastday[2].day.uv + ` <br> <span class="uv-status">Extreme</span>`;
+            } else if (weather.forecast.forecastday[2].day.uv <= 10.99 && weather.forecast.forecastday[2].day.uv >= 8) {
+                uv_index.classList.add("red");
+                uv_emoji.classList.add("red");
+                uv_value.classList.add("red");
+                uv_text.textContent = "Very High";
+                uv_value.innerHTML = weather.forecast.forecastday[2].day.uv + ` <br> <span class="uv-status">Very High</span>`;
+            } else if (weather.forecast.forecastday[2].day.uv <= 7.99 && weather.forecast.forecastday[2].day.uv >= 6) {
+                uv_index.classList.add("orange");
+                uv_emoji.classList.add("orange");
+                uv_value.classList.add("orange");
+                uv_text.textContent = "High";
+                uv_value.innerHTML = weather.forecast.forecastday[2].day.uv + ` <br> <span class="uv-status">High</span>`;
+            } else if (weather.forecast.forecastday[2].day.uv <= 5.99 && weather.forecast.forecastday[2].day.uv >= 3) {
+                uv_index.classList.add("yellow");
+                uv_emoji.classList.add("yellow");
+                uv_value.classList.add("yellow");
+                uv_text.textContent = "Moderate";
+                uv_value.innerHTML = weather.forecast.forecastday[2].day.uv + ` <br> <span class="uv-status">Moderate</span>`;
+            } else {
+                uv_index.classList.add("green");
+                uv_emoji.classList.add("green");
+                uv_value.classList.add("green");
+                uv_text.textContent = "Low";
+                uv_value.innerHTML = weather.forecast.forecastday[2].day.uv + ` <br> <span class="uv-status">Low</span>`;
+            }
+
+            uv_value.style.border = "none";
+
+            document.querySelector(".uv-weather-section-text").textContent = ` UV ` + Math.floor(weather.forecast.forecastday[2].day.uv) + ` ·`;
+
+            for (let i = 0; i < 24; i++) {
+                document.querySelector(".hour-" + i + " .hourly-temperature").innerHTML = Math.floor(weather.forecast.forecastday[2].hour[i].temp_c) + `°C`;
+            }
+
+
+            document.querySelector(".sunrise-text").innerHTML = weather.forecast.forecastday[2].astro.sunrise;
+            document.querySelector(".sunset-text").innerHTML = weather.forecast.forecastday[2].astro.sunset;
+            document.querySelector(".high-low-text").innerHTML = weather.forecast.forecastday[2].day.maxtemp_c + `°/` + weather.forecast.forecastday[2].day.mintemp_c + `°`;
+            document.querySelector(".wind-text").innerHTML = weather.forecast.forecastday[2].day.maxwind_kph + ` km/h`;
+            document.querySelector(".humidity-text").innerHTML = weather.forecast.forecastday[2].day.avghumidity + `%`;
+            document.querySelector(".visibility-text").innerHTML = weather.forecast.forecastday[2].day.avgvis_km + ` km`;
+
+            for (let i = 0; i < 24; i++) {
+                document.querySelector(".hourly-weather-" + i).innerHTML = getWeatherIcon(weather.forecast.forecastday[2].hour[i].condition.code, weather.forecast.forecastday[2].hour[i].is_day);
+            }
+
+            document.querySelector(".weather-sticker").innerHTML = getWeatherIcon(weather.forecast.forecastday[2].day.condition.code, 1);
+            document.querySelector(".weather-sticker svg").classList.add("expand-weather");
+
+            document.querySelectorAll(".precipitation").forEach((precipitation, i) => {
+
+                const hour = weather.forecast.forecastday[2].hour[i];
+
+                precipitation.querySelector("p").textContent = `${hour.precip_mm}mm`;
+
+                if (hour.will_it_rain) {
+                    precipitation.classList.remove("display-none");
+                } else {
+                    precipitation.classList.add("display-none");
+                    console.log("display none applied");
+                }
+                console.log("Loop is running");
+            });
+        }
+    }
+
+
+    function createRain() {
+        const rain = document.querySelector(".rain");
+
+        const pageHeight = document.documentElement.scrollHeight;
+
+        rain.style.height = pageHeight + "px";
+
+        document.documentElement.style.setProperty(
+            "--rain-distance",
+            pageHeight + "px"
+        );
+
+        rain.innerHTML = "";
+
+        for (let i = 0; i < 140; i++) {
+
+            const drop = document.createElement("div");
+
+            drop.className = "raindrop";
+
+            drop.style.left = Math.random() * 100 + "%";
+
+            drop.style.animationDelay = Math.random() * 2 + "s";
+
+            drop.style.animationDuration =
+                (0.6 + Math.random() * 0.5) + "s";
+
+            rain.appendChild(drop);
+        }
+    }
+
+
+    function createSnow() {
+
+        const snow = document.querySelector(".snow");
+
+        const pageHeight = document.documentElement.scrollHeight;
+
+        snow.style.height = pageHeight + "px";
+
+        document.documentElement.style.setProperty(
+            "--snow-distance",
+            pageHeight + "px"
+        );
+
+        snow.innerHTML = "";
+
+        for (let i = 0; i < 90; i++) {
+
+            const flake = document.createElement("div");
+
+            flake.className = "snowflake";
+
+            flake.style.left = Math.random() * 100 + "%";
+
+            flake.style.animationDelay = Math.random() * 6 + "s";
+
+            flake.style.animationDuration =
+                (5 + Math.random() * 5) + "s";
+
+            flake.style.opacity = Math.random();
+
+            snow.appendChild(flake);
+
+        }
+
+    }
+
+
+
+    function createFog() {
+
+        const fog = document.querySelector(".fog");
+
+        fog.innerHTML = "";
+
+        for (let i = 0; i < 6; i++) {
+
+            const layer = document.createElement("div");
+
+            layer.className = "fog-layer";
+
+            layer.style.top = (i * 22) + "%";
+
+            layer.style.animationDelay = (i * 2) + "s";
+
+            fog.appendChild(layer);
+
+        }
+
+    }
+
+
+
+    function createThunder() {
+
+        const flash = document.querySelector(".thunder-flash");
+        const bolt = document.querySelector(".lightning");
+
+        function strike() {
+
+            // ⭐ RANDOM SKY POSITION (TOP AREA ONLY)
+            const x = Math.random() * 90;
+            const y = Math.random() * 15;
+
+            bolt.style.left = x + "%";
+            bolt.style.top = y + "%";
+
+            // ⭐ RESET STATE (IMPORTANT)
+            bolt.style.opacity = 0;
+            flash.style.opacity = 0;
+
+            // ⭐ force render update (prevents invisible frames)
+            bolt.getBoundingClientRect();
+
+            // ⚡ SHOW BOLT FIRST (make it actually visible)
             bolt.animate([
-                { opacity: 1 },
-                { opacity: 0 }
+                { opacity: 0 },
+                { opacity: 1 }
             ], {
-                duration: 160,
+                duration: 300,
                 fill: "forwards"
             });
 
-        }, 180);
-
-        // ⚡ DOUBLE LIGHTNING
-        if (Math.random() < 0.35) {
-
+            // 💥 MAIN FLASH + bolt sync
             setTimeout(() => {
 
                 flash.animate([
@@ -1089,133 +1089,158 @@ function createThunder() {
                     { opacity: 0.5, offset: 0.2 },
                     { opacity: 0 }
                 ], {
-                    duration: 120
+                    duration: 160,
+                    easing: "ease-out"
                 });
 
                 bolt.animate([
-                    { opacity: 0 },
                     { opacity: 1 },
                     { opacity: 0 }
                 ], {
-                    duration: 120
+                    duration: 160,
+                    fill: "forwards"
                 });
 
-            }, 200);
+            }, 180);
+
+            // ⚡ DOUBLE LIGHTNING
+            if (Math.random() < 0.35) {
+
+                setTimeout(() => {
+
+                    flash.animate([
+                        { opacity: 0 },
+                        { opacity: 0.5, offset: 0.2 },
+                        { opacity: 0 }
+                    ], {
+                        duration: 120
+                    });
+
+                    bolt.animate([
+                        { opacity: 0 },
+                        { opacity: 1 },
+                        { opacity: 0 }
+                    ], {
+                        duration: 120
+                    });
+
+                }, 200);
+            }
+
+            // 🔁 LOOP STORM
+            thunderTimer = setTimeout(() => {
+                strike();
+            }, 5000 + Math.random() * 8000);
         }
 
-        // 🔁 LOOP STORM
-        thunderTimer = setTimeout(() => {
-            strike();
-        }, 5000 + Math.random() * 8000);
+        strike();
     }
 
-    strike();
-}
 
+    function clearEffects() {
 
-function clearEffects() {
+        const rain = document.querySelector(".rain");
+        const snow = document.querySelector(".snow");
+        const fog = document.querySelector(".fog");
 
-    const rain = document.querySelector(".rain");
-    const snow = document.querySelector(".snow");
-    const fog = document.querySelector(".fog");
+        const flash = document.querySelector(".thunder-flash");
+        const bolt = document.querySelector(".lightning");
 
-    const flash = document.querySelector(".thunder-flash");
-    const bolt = document.querySelector(".lightning");
+        clearTimeout(thunderTimer);
 
-    clearTimeout(thunderTimer);
+        const hasEffects =
+            rain.children.length ||
+            snow.children.length ||
+            fog.children.length;
 
-    const hasEffects =
-        rain.children.length ||
-        snow.children.length ||
-        fog.children.length;
+        if (!hasEffects) {
+            return Promise.resolve();
+        }
 
-    if (!hasEffects) {
-        return Promise.resolve();
+        rain.classList.add("fade-out");
+        snow.classList.add("fade-out");
+        fog.classList.add("fade-out");
+
+        if (flash) flash.style.opacity = "0";
+        if (bolt) bolt.style.opacity = "0";
+
+        return new Promise(resolve => {
+
+            setTimeout(() => {
+
+                rain.innerHTML = "";
+                snow.innerHTML = "";
+                fog.innerHTML = "";
+
+                rain.classList.remove("fade-out");
+                snow.classList.remove("fade-out");
+                fog.classList.remove("fade-out");
+
+                resolve();
+
+            }, 600);
+
+        });
+
     }
 
-    rain.classList.add("fade-out");
-    snow.classList.add("fade-out");
-    fog.classList.add("fade-out");
+    async function weatherEffects(group) {
 
-    if (flash) flash.style.opacity = "0";
-    if (bolt) bolt.style.opacity = "0";
+        await clearEffects();
 
-    return new Promise(resolve => {
+        switch (group) {
 
-        setTimeout(() => {
+            case "Raining":
+                createRain();
+                break;
 
-            rain.innerHTML = "";
-            snow.innerHTML = "";
-            fog.innerHTML = "";
+            case "Snowing":
+                createSnow();
+                break;
 
-            rain.classList.remove("fade-out");
-            snow.classList.remove("fade-out");
-            fog.classList.remove("fade-out");
+            case "Foggy":
+                createFog();
+                break;
 
-            resolve();
+            case "Thunder":
 
-        }, 600);
+                createRain();
 
-    });
+                createThunder();
 
-}
-
-async function weatherEffects(group){
-
-    await clearEffects();
-
-    switch(group){
-
-        case "Raining":
-            createRain();
-            break;
-
-        case "Snowing":
-            createSnow();
-            break;
-
-        case "Foggy":
-            createFog();
-            break;
-        
-        case "Thunder":
-
-            createRain();   
-
-            createThunder();
-
-            break;
+                break;
+        }
     }
-}
 
 
 
 
-function updateBackground(group, isDay) {
+    function updateBackground(group, isDay) {
 
-    const backgrounds = {
-        Sunny: isDay ? "bg-sunny" : "bg-night",
-        Cloudy: "bg-cloudy",
-        Raining: "bg-raining",
-        Thunder: "bg-thunder",
-        Snowing: "bg-snowing",
-        Foggy: "bg-foggy"
-    };
+        const backgrounds = {
+            Sunny: isDay ? "bg-sunny" : "bg-night",
+            Cloudy: "bg-cloudy",
+            Raining: "bg-raining",
+            Thunder: "bg-thunder",
+            Snowing: "bg-snowing",
+            Foggy: "bg-foggy"
+        };
 
-    const newClass = backgrounds[group];
+        const newClass = backgrounds[group];
 
-    const current = document.getElementById(`bg${activeBackground}`);
-    const next = document.getElementById(`bg${activeBackground === 1 ? 2 : 1}`);
+        const current = document.getElementById(`bg${activeBackground}`);
+        const next = document.getElementById(`bg${activeBackground === 1 ? 2 : 1}`);
 
-    if (current.classList.contains(newClass)) 
-        return;
+        if (current.classList.contains(newClass))
+            return;
 
-    next.className = "background-layer";
-    next.style.opacity = "0";
-    next.classList.add(newClass);
+        next.className = "background-layer";
+        next.style.opacity = "0";
+        next.classList.add(newClass);
 
-    next.style.opacity = "1";
-    current.style.opacity = "0";
+        next.style.opacity = "1";
+        current.style.opacity = "0";
 
-    activeBackground = activeBackground === 1 ? 2 : 1;
+        activeBackground = activeBackground === 1 ? 2 : 1;
+    }
 }

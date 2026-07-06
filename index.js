@@ -1,12 +1,17 @@
 import express from "express";
 import bodyParser from "body-parser";
 import axios from "axios";
+import dotenv from "dotenv";
+
+dotenv.config();
+
 
 const port = 3000;
 const app = express();
-const weather_api_key = "7609157b367744868da105759260302"
+const weather_api_key = process.env.WEATHER_API_KEY;
 
 app.use(express.static("public"));
+app.set("view engine", "ejs");
 
 app.get("/", (req,res)=>{
     res.render("index.ejs");
@@ -42,7 +47,14 @@ app.get("/weather", async (req,res) =>{
         res.render("index.ejs",data);
 
     } catch (error) {
-        console.error(error);
+        res.render("index", {
+            city:req.query.location,
+            error: "No! City Named ",
+            weather: null,
+        weatherType: null,
+        forecastWeatherTMRW: null,
+        forecastWeatherDayAfterTmrw: null,
+        });
     }
 });
 
